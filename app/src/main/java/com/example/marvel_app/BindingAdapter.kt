@@ -24,19 +24,18 @@ fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?) {
 @BindingAdapter("authors")
 fun formatAuthors(textView: TextView, authors: List<String>?) {
     if (authors != null) {
-        var formattedText = "written by "
+        var formattedText = textView.resources.getString(R.string.written_by)
         for (author in authors) {
-            formattedText += "$author, "
+            formattedText += " $author,"
         }
-        formattedText = formattedText.subSequence(0, formattedText.length - 2) as String
+        formattedText = formattedText.subSequence(0, formattedText.length - 1) as String
         textView.text = formattedText
     }
 }
 
 @BindingAdapter("image_url")
 fun bindImage(imgView: ImageView, imageUrl: String?) {
-    if (imageUrl != null) {
-        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
+    imageUrl?.let { val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
             .load(imgUri)
             .listener(object : RequestListener<Drawable> {
@@ -61,8 +60,7 @@ fun bindImage(imgView: ImageView, imageUrl: String?) {
                     return false
                 }
             })
-            .into(imgView)
-    } else {
+            .into(imgView) } ?: run {
         imgView.visibility = View.GONE
     }
 }
