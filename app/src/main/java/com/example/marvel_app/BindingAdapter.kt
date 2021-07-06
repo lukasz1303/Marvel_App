@@ -16,13 +16,13 @@ import com.bumptech.glide.request.target.Target
 import com.example.marvel_app.model.Comic
 
 @BindingAdapter("comics")
-fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?){
+fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?) {
     val adapter = recyclerView.adapter as ComicsAdapter
     adapter.submitList(comics)
 }
 
 @BindingAdapter("authors")
-fun formatAuthors(textView: TextView, authors: List<String>?){
+fun formatAuthors(textView: TextView, authors: List<String>?) {
     if (authors != null) {
         var formattedText = "written by "
         for (author in authors) {
@@ -62,7 +62,7 @@ fun bindImage(imgView: ImageView, imageUrl: String?) {
                 }
             })
             .into(imgView)
-    } else{
+    } else {
         imgView.visibility = View.GONE
     }
 }

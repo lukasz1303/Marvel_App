@@ -25,8 +25,10 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
 
         val manager = GridLayoutManager(activity,1)
-        binding.comicsListHome.layoutManager = manager
-        binding.comicsListHome.adapter = ComicsAdapter()
+        binding.comicsListHome.apply {
+            layoutManager = manager
+            adapter = ComicsAdapter()
+        }
 
         return binding.root
     }
