@@ -13,9 +13,9 @@ fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?){
 
 @BindingAdapter("authors")
 fun formatAuthors(textView: TextView, authors: List<String>){
-    var formattedText = ""
+    var formattedText = "written by "
     for (author in authors){
-        formattedText += "$author,"
+        formattedText += "$author, "
     }
     formattedText = formattedText.subSequence(0,formattedText.length-2) as String
     textView.text = formattedText
