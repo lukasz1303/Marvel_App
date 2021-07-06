@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.marvel_app.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -22,6 +23,10 @@ class HomeFragment : Fragment() {
         val binding = FragmentHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        val manager = GridLayoutManager(activity,1)
+        binding.comicsListHome.layoutManager = manager
+        binding.comicsListHome.adapter = ComicsAdapter()
 
         return binding.root
     }
