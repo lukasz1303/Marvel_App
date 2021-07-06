@@ -36,11 +36,11 @@
 
                 <ImageView
                     android:id="@+id/home_comic_imageView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="116dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_launcher_background" />
+                    app:image_url="@{viewHolder.imageUrl}"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/title_comic_home_text_view"

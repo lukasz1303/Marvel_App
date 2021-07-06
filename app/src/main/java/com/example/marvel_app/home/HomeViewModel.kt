@@ -12,9 +12,9 @@ class HomeViewModel: ViewModel() {
     get() = _comics
 
     init {
-        _comics.value = listOf(Comic("Star Wars 1", null, "Some description 1", listOf("Author 1")),
-            Comic("Star Wars 2", null, "Some description 2", listOf("Author 2")),
+        _comics.value = listOf(Comic("Star Wars 1", "https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image.png", "Some description 1", listOf("Author 1")),
+            Comic("Star Wars 2", "https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image.png", "description", null),
             Comic("Star Wars 3", null, "Some description 3", listOf("Author 3")),
-            Comic("Star Wars 4", null, "Some description 4", listOf("Author 4", "Author 5")))
+            Comic("Star Wars 4", null, null, listOf("Author 4", "Author 5")))
     }
 }
