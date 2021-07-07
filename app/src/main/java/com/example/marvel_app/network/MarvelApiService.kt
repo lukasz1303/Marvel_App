@@ -25,7 +25,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface MarvelApiService{
-    @GET("comics/?ts=$ts&apikey=$apikey&hash=$hash")
+    @GET("comics?ts=$ts&apikey=$apikey&hash=$hash")
     fun getResponse(@Query("limit") limit:Int, @Query("offset") offset: Int,@Query("orderBy") orderBy: String): Deferred<NetworkResponse>
 }
 
