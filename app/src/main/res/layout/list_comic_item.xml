@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewHolder"
+            type="com.example.marvel_app.model.Comic" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_view_margin"
+            android:layout_marginEnd="@dimen/card_view_margin"
+            android:layout_marginBottom="@dimen/card_view_margin"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_view_radius"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/home_comic_imageView"
+                    android:layout_width="@dimen/comic_image_width"
+                    android:layout_height="wrap_content"
+                    app:image_url="@{viewHolder.imageUrl}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/comic_text_margin"
+                    android:orientation="vertical"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/home_comic_imageView"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/title_comic_home_text_view"
+                        android:layout_width="@dimen/comic_image_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/comic_text_margin_start"
+                        android:layout_marginTop="@dimen/comic_title_margin_top"
+                        android:text="@{viewHolder.title}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/comic_title_text_size"
+                        tools:text="Star Wars #7" />
+
+                    <TextView
+                        android:id="@+id/authors_comic_home_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/comic_text_margin_start"
+                        android:layout_marginTop="@dimen/comic_text_margin"
+                        android:textColor="@color/very_ligth_pink"
+                        android:textSize="@dimen/comic_authors_text_size"
+                        android:visibility="@{viewHolder.authors != null ? View.VISIBLE : View.GONE}"
+                        app:authors="@{viewHolder.authors}"
+                        tools:text="written by author" />
+
+                    <TextView
+                        android:id="@+id/description_comic_home_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/comic_text_margin_start"
+                        android:layout_marginTop="@dimen/comic_text_margin"
+                        android:layout_marginBottom="@dimen/comic_text_margin"
+                        android:text="@{viewHolder.description}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/comic_description_text_size"
+                        android:visibility="@{viewHolder.description != null ? View.VISIBLE : View.GONE}"
+                        tools:text="Some description" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
