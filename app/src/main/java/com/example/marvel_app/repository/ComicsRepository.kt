@@ -11,8 +11,9 @@ class ComicsRepository {
 
     val comics = MutableLiveData<List<Comic>>()
     suspend fun refreshComics() {
-        withContext(Dispatchers.IO){}
-        val networkResponse = MarvelApi.retrofitServiceMarvel.getResponse(100,0,"-onsaleDate").await()
+        withContext(Dispatchers.IO) {}
+        val networkResponse =
+            MarvelApi.retrofitServiceMarvel.getResponseAsync(100, 0, "-onsaleDate").await()
         comics.value = networkResponse.data.results.asDomainModel()
     }
 }

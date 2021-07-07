@@ -1,7 +1,6 @@
 package com.example.marvel_app
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,7 +23,7 @@ fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?) {
 @BindingAdapter("authors")
 fun formatAuthors(textView: TextView, authors: List<String>?) {
     if (authors != null) {
-        if(authors.isNotEmpty()){
+        if (authors.isNotEmpty()) {
             var formattedText = textView.resources.getString(R.string.written_by)
             for (author in authors) {
                 formattedText += " $author,"

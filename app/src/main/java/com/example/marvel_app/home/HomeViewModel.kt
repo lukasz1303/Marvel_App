@@ -1,10 +1,7 @@
 package com.example.marvel_app.home
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.marvel_app.model.Comic
 import com.example.marvel_app.repository.ComicsRepository
 import kotlinx.coroutines.*
 import java.lang.Exception

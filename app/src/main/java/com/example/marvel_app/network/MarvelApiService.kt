@@ -24,11 +24,15 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface MarvelApiService{
+interface MarvelApiService {
     @GET("comics?ts=$ts&apikey=$apikey&hash=$hash")
-    fun getResponse(@Query("limit") limit:Int, @Query("offset") offset: Int,@Query("orderBy") orderBy: String): Deferred<NetworkResponse>
+    fun getResponseAsync(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Query("orderBy") orderBy: String
+    ): Deferred<NetworkResponse>
 }
 
-object MarvelApi{
+object MarvelApi {
     val retrofitServiceMarvel: MarvelApiService = retrofit.create(MarvelApiService::class.java)
 }
