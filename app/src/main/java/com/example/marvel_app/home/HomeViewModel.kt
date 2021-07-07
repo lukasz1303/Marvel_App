@@ -18,7 +18,7 @@ class HomeViewModel : ViewModel() {
         get() = _state
 
 
-    private val exceptionHandler = CoroutineExceptionHandler{ _, exception ->
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         Log.i("HomeViewModel", "Failure: ${exception.message}")
         _state.value = UIState.Error
     }
@@ -29,7 +29,7 @@ class HomeViewModel : ViewModel() {
         refreshComicsFromRepository()
     }
 
-    private fun refreshComicsFromRepository(){
+    private fun refreshComicsFromRepository() {
         _state.value = UIState.InProgress
         viewModelScope.launch(exceptionHandler) {
             comics.value = comicsRepository.refreshComics()

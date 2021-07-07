@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner, {
-            when (it){
+            when (it) {
                 is UIState.InProgress -> {
                     binding.homeProgressBar.visibility = View.VISIBLE
                     binding.homeErrorTextView.visibility = View.GONE

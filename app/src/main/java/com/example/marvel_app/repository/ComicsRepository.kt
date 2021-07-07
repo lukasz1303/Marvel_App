@@ -14,10 +14,9 @@ class ComicsRepository {
     suspend fun refreshComics(): List<Comic>? {
         val networkResponse =
             MarvelApi.retrofitServiceMarvel.getResponseAsync(100, 0, "-onsaleDate")
-        if(networkResponse.isSuccessful) {
+        if (networkResponse.isSuccessful) {
             return networkResponse.body()?.data?.results?.asDomainModel()
-        }
-        else {
+        } else {
             throw HttpException(networkResponse)
         }
     }
