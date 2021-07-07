@@ -2,10 +2,11 @@
 
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.marvel_app.home.HomeViewModel" />
@@ -20,7 +21,7 @@
             android:id="@+id/comics_list_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:comics="@{viewModel.comics}"/>
+            app:comics="@{viewModel.comics}" />
 
     </FrameLayout>
 </layout>

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewHolder"
             type="com.example.marvel_app.model.Comic" />
@@ -13,17 +15,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
->
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/card_view_radius"
-            android:layout_marginBottom="@dimen/card_view_margin"
             android:layout_marginStart="@dimen/card_view_margin"
             android:layout_marginEnd="@dimen/card_view_margin"
+            android:layout_marginBottom="@dimen/card_view_margin"
             app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_view_radius"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true"
 
@@ -38,9 +39,9 @@
                     android:id="@+id/home_comic_imageView"
                     android:layout_width="@dimen/comic_image_width"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:image_url="@{viewHolder.imageUrl}"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -59,10 +60,10 @@
                         android:layout_width="@dimen/comic_image_width"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/comic_text_margin_start"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="@dimen/comic_title_margin_top"
                         android:text="@{viewHolder.title}"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/comic_title_text_size"
                         tools:text="Star Wars #7" />
 
                     <TextView
@@ -72,7 +73,7 @@
                         android:layout_marginStart="@dimen/comic_text_margin_start"
                         android:layout_marginTop="@dimen/comic_text_margin"
                         android:textColor="@color/very_ligth_pink"
-                        android:textSize="11sp"
+                        android:textSize="@dimen/comic_authors_text_size"
                         android:visibility="@{viewHolder.authors != null ? View.VISIBLE : View.GONE}"
                         app:authors="@{viewHolder.authors}"
                         tools:text="written by author" />
@@ -86,7 +87,7 @@
                         android:layout_marginBottom="@dimen/comic_text_margin"
                         android:text="@{viewHolder.description}"
                         android:textColor="@color/black"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/comic_description_text_size"
                         android:visibility="@{viewHolder.description != null ? View.VISIBLE : View.GONE}"
                         tools:text="Some description" />
                 </LinearLayout>

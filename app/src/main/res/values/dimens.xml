@@ -4,5 +4,9 @@
     <dimen name="card_view_radius">6dp</dimen>
     <dimen name="comic_image_width">116dp</dimen>
     <dimen name="comic_text_margin">8dp</dimen>
-    <dimen name="comic_text_margin_start">15.5dp</dimen>
+    <dimen name="comic_text_margin_start">15dp</dimen>
+    <dimen name="comic_title_text_size">18sp</dimen>
+    <dimen name="comic_title_margin_top">12dp</dimen>
+    <dimen name="comic_authors_text_size">11sp</dimen>
+    <dimen name="comic_description_text_size">12sp</dimen>
 </resources>

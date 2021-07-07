@@ -28,14 +28,15 @@ fun formatAuthors(textView: TextView, authors: List<String>?) {
         for (author in authors) {
             formattedText += " $author,"
         }
-        formattedText = formattedText.subSequence(0, formattedText.length - 1) as String
+        formattedText = formattedText.subSequence(0, formattedText.length - 1).toString()
         textView.text = formattedText
     }
 }
 
 @BindingAdapter("image_url")
 fun bindImage(imgView: ImageView, imageUrl: String?) {
-    imageUrl?.let { val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
+    imageUrl?.let {
+        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
             .load(imgUri)
             .listener(object : RequestListener<Drawable> {
@@ -60,7 +61,8 @@ fun bindImage(imgView: ImageView, imageUrl: String?) {
                     return false
                 }
             })
-            .into(imgView) } ?: run {
+            .into(imgView)
+    } ?: run {
         imgView.visibility = View.GONE
     }
 }

@@ -15,6 +15,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this).get(HomeViewModel::class.java)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,7 +25,7 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val manager = GridLayoutManager(activity,1)
+        val manager = GridLayoutManager(activity, 1)
         binding.comicsListHome.apply {
             layoutManager = manager
             adapter = ComicsAdapter()
