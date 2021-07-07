@@ -35,32 +35,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/home_comic_imageView"
-                    android:layout_width="@dimen/comic_image_width"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/home_comic_image_cardView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:image_url="@{viewHolder.imageUrl}"
+                    app:cardCornerRadius="@dimen/card_view_radius"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/home_comic_imageView"
+                        android:layout_width="@dimen/comic_image_width"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/comic_icon_description"
+                        app:image_url="@{viewHolder.imageUrl}" />
+                </androidx.cardview.widget.CardView>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/comic_text_margin"
                     android:layout_marginBottom="@dimen/comic_text_margin"
                     android:orientation="vertical"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/home_comic_imageView"
+                    app:layout_constraintStart_toEndOf="@+id/home_comic_image_cardView"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/title_comic_home_text_view"
-                        android:layout_width="@dimen/comic_image_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/comic_text_margin_start"
                         android:layout_marginTop="@dimen/comic_title_margin_top"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:text="@{viewHolder.title}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/comic_title_text_size"
@@ -72,9 +85,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/comic_text_margin_start"
                         android:layout_marginTop="@dimen/comic_text_margin"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:textColor="@color/very_ligth_pink"
                         android:textSize="@dimen/comic_authors_text_size"
-                        android:visibility="@{viewHolder.authors != null ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{(viewHolder.authors == null || viewHolder.authors.size == 0) ? View.GONE : View.VISIBLE}"
                         app:authors="@{viewHolder.authors}"
                         tools:text="written by author" />
 
@@ -85,6 +100,8 @@
                         android:layout_marginStart="@dimen/comic_text_margin_start"
                         android:layout_marginTop="@dimen/comic_text_margin"
                         android:layout_marginBottom="@dimen/comic_text_margin"
+                        android:ellipsize="end"
+                        android:maxLines="5"
                         android:text="@{viewHolder.description}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/comic_description_text_size"

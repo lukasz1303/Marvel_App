@@ -1,32 +1,39 @@
 package com.example.marvel_app.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.marvel_app.UIState
 import com.example.marvel_app.model.Comic
+import com.example.marvel_app.repository.ComicsRepository
+import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
-    private val _comics = MutableLiveData<List<Comic>>()
-    val comics: LiveData<List<Comic>>
-        get() = _comics
+    private val comicsRepository = ComicsRepository()
+    private val _state = MutableLiveData<UIState>()
+    val state: LiveData<UIState>
+        get() = _state
+
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Log.i("HomeViewModel", "Failure: ${exception.message}")
+        _state.value = UIState.Error
+    }
+
+    val comics = MutableLiveData<List<Comic>>()
 
     init {
-        _comics.value = listOf(
-            Comic(
-                "Star Wars 1",
-                "https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image.png",
-                "Some description 1",
-                listOf("Author 1")
-            ),
-            Comic(
-                "Star Wars 2",
-                "https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image.png",
-                "description",
-                null
-            ),
-            Comic("Star Wars 3", null, "Some description 3", listOf("Author 3")),
-            Comic("Star Wars 4", null, null, listOf("Author 4", "Author 5"))
-        )
+        refreshComicsFromRepository()
+    }
+
+    private fun refreshComicsFromRepository() {
+        _state.value = UIState.InProgress
+        viewModelScope.launch(exceptionHandler) {
+            comics.value = comicsRepository.refreshComics()
+            _state.value = UIState.Success
+        }
     }
 }

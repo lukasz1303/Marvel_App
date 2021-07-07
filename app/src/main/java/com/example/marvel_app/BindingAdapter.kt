@@ -1,7 +1,6 @@
 package com.example.marvel_app
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,19 +23,21 @@ fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?) {
 @BindingAdapter("authors")
 fun formatAuthors(textView: TextView, authors: List<String>?) {
     if (authors != null) {
-        var formattedText = textView.resources.getString(R.string.written_by)
-        for (author in authors) {
-            formattedText += " $author,"
+        if (authors.isNotEmpty()) {
+            var formattedText = textView.resources.getString(R.string.written_by)
+            for (author in authors) {
+                formattedText += " $author,"
+            }
+            formattedText = formattedText.subSequence(0, formattedText.length - 1).toString()
+            textView.text = formattedText
         }
-        formattedText = formattedText.subSequence(0, formattedText.length - 1).toString()
-        textView.text = formattedText
     }
 }
 
 @BindingAdapter("image_url")
 fun bindImage(imgView: ImageView, imageUrl: String?) {
     imageUrl?.let {
-        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
+        val imgUri = imageUrl.toUri().buildUpon().scheme("http").build()
         Glide.with(imgView.context)
             .load(imgUri)
             .listener(object : RequestListener<Drawable> {
