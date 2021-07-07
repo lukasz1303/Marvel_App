@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
+import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -30,6 +31,23 @@ class HomeFragment : Fragment() {
             layoutManager = manager
             adapter = ComicsAdapter()
         }
+
+        viewModel.state.observe(viewLifecycleOwner, {
+            when (it){
+                is UIState.InProgress -> {
+                    binding.homeProgressBar.visibility = View.VISIBLE
+                    binding.homeErrorTextView.visibility = View.GONE
+                }
+                is UIState.Error -> {
+                    binding.homeErrorTextView.visibility = View.VISIBLE
+                    binding.homeProgressBar.visibility = View.GONE
+                }
+                else -> {
+                    binding.homeProgressBar.visibility = View.GONE
+                    binding.homeErrorTextView.visibility = View.GONE
+                }
+            }
+        })
 
         return binding.root
     }

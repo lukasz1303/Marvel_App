@@ -1,32 +1,39 @@
 package com.example.marvel_app.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.marvel_app.UIState
+import com.example.marvel_app.model.Comic
 import com.example.marvel_app.repository.ComicsRepository
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class HomeViewModel : ViewModel() {
 
     private val comicsRepository = ComicsRepository()
+    private val _state = MutableLiveData<UIState>()
+    val state: LiveData<UIState>
+        get() = _state
 
-    private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    val comics = comicsRepository.comics
+    private val exceptionHandler = CoroutineExceptionHandler{ _, exception ->
+        Log.i("HomeViewModel", "Failure: ${exception.message}")
+        _state.value = UIState.Error
+    }
+
+    val comics = MutableLiveData<List<Comic>>()
 
     init {
         refreshComicsFromRepository()
     }
 
     private fun refreshComicsFromRepository(){
-        coroutineScope.launch {
-            try {
-                comicsRepository.refreshComics()
-                Log.i("HomeViewModel", "Success: comics refreshed")
-            } catch (e: Exception){
-                Log.i("HomeViewModel", "Failure: ${e.message}")
-            }
+        _state.value = UIState.InProgress
+        viewModelScope.launch(exceptionHandler) {
+            comics.value = comicsRepository.refreshComics()
+            _state.value = UIState.Success
         }
     }
 }

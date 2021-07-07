@@ -6,14 +6,19 @@ import com.example.marvel_app.network.MarvelApi
 import com.example.marvel_app.network.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import retrofit2.Response
 
 class ComicsRepository {
 
-    val comics = MutableLiveData<List<Comic>>()
-    suspend fun refreshComics() {
-        withContext(Dispatchers.IO) {}
+    suspend fun refreshComics(): List<Comic>? {
         val networkResponse =
-            MarvelApi.retrofitServiceMarvel.getResponseAsync(100, 0, "-onsaleDate").await()
-        comics.value = networkResponse.data.results.asDomainModel()
+            MarvelApi.retrofitServiceMarvel.getResponseAsync(100, 0, "-onsaleDate")
+        if(networkResponse.isSuccessful) {
+            return networkResponse.body()?.data?.results?.asDomainModel()
+        }
+        else {
+            throw HttpException(networkResponse)
+        }
     }
 }
