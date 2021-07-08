@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
-import com.example.marvel_app.OnClickListener
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
 
@@ -32,9 +31,9 @@ class HomeFragment : Fragment() {
         val manager = GridLayoutManager(activity, 1)
         binding.comicsListHome.apply {
             layoutManager = manager
-            adapter = ComicsAdapter(OnClickListener {
+            adapter = ComicsAdapter {
                 viewModel.displayComicDetail(it)
-            })
+            }
         }
 
         viewModel.state.observe(viewLifecycleOwner, {
