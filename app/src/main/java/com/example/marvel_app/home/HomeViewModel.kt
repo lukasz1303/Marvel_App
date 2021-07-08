@@ -41,11 +41,11 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun displayComicDetail(comic: Comic){
+    fun displayComicDetail(comic: Comic) {
         _navigateToSelectedComic.value = comic
     }
 
-    fun displayComicDetailComplete(){
+    fun displayComicDetailComplete() {
         _navigateToSelectedComic.value = null
     }
 }

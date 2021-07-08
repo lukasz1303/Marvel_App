@@ -27,6 +27,17 @@ fun List<NetworkComic>.asDomainModel(): List<Comic> {
                 }
             }
         }
+        var detailUrl: String? = null
+        itComic.urls?.let {
+            for (url in itComic.urls) {
+                if (url != null) {
+                    if (url.type == "detail") {
+                        detailUrl = url.url
+                        break
+                    }
+                }
+            }
+        }
         var description: String? = null
         itComic.description?.let {
             description = Html.fromHtml(itComic.description, Html.FROM_HTML_MODE_LEGACY).toString()
@@ -36,7 +47,8 @@ fun List<NetworkComic>.asDomainModel(): List<Comic> {
             imageUrl = itComic.thumbnail?.path,
             imageExtension = itComic.thumbnail?.extension,
             description = description,
-            authors = authors
+            authors = authors,
+            detailUrl = detailUrl
         )
     }
 }

@@ -3,5 +3,5 @@
     <solid android:color="@color/white" />
     <corners
         android:topLeftRadius="@dimen/bottom_sheet_background_radius"
-        android:topRightRadius="@dimen/bottom_sheet_background_radius"/>
+        android:topRightRadius="@dimen/bottom_sheet_background_radius" />
 </shape>

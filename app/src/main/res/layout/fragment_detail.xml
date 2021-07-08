@@ -25,14 +25,16 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:image_url="@{viewModel.selectedComic.imageUrl}"
-                app:image_resolution="@{(1)}"
                 app:image_extension="@{viewModel.selectedComic.imageExtension}"
+                app:image_resolution="@{(1)}"
+                app:image_url="@{viewModel.selectedComic.imageUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/comic_image_description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,7 +54,8 @@
                 android:src="@drawable/rectangle_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/rectangle_up_image_description"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -60,8 +63,9 @@
                 android:layout_marginStart="@dimen/detail_view_margin"
                 android:layout_marginTop="@dimen/detail_view_margin"
                 android:layout_marginEnd="@dimen/detail_view_margin"
-                app:layout_constrainedWidth="true"
+                android:layout_marginBottom="@dimen/detail_scroll_view_bottom_margin"
                 app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -99,7 +103,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/comic_text_margin"
-                        android:layout_marginBottom="@dimen/detail_view_margin"
                         android:text="@{viewModel.selectedComic.description}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/comic_description_detail_text_size"
@@ -109,5 +112,34 @@
             </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/find_out_more_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/detail_view_margin"
+                android:layout_marginTop="@dimen/detail_view_margin"
+                android:layout_marginEnd="@dimen/detail_view_margin"
+                android:layout_marginBottom="@dimen/find_out_more_button_bottom_margin"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:padding="@dimen/detail_view_margin"
+                android:text="@string/find_out_more"
+                android:textColor="@color/white"
+                android:textSize="@dimen/find_out_more_button_text_size"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Find out more" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

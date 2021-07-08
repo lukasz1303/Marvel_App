@@ -35,9 +35,14 @@ fun formatAuthors(textView: TextView, authors: List<String>?) {
 }
 
 @BindingAdapter("image_url", "image_resolution", "image_extension", requireAll = false)
-fun bindImage(imgView: ImageView, imageUrl: String?, imageResolution: Int?, imageExtension: String?) {
+fun bindImage(
+    imgView: ImageView,
+    imageUrl: String?,
+    imageResolution: Int?,
+    imageExtension: String?
+) {
     imageUrl?.let {
-        val validUrl = when (imageResolution){
+        val validUrl = when (imageResolution) {
             0 -> "${imageUrl}/portrait_medium.$imageExtension"
             else -> "${imageUrl}.$imageExtension"
         }

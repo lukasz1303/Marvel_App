@@ -7,10 +7,9 @@ import com.example.marvel_app.model.Comic
 
 class DetailViewModel(comic: Comic) : ViewModel() {
 
-
     private val _selectedComic = MutableLiveData<Comic>()
     val selectedComic: LiveData<Comic>
-    get() = _selectedComic
+        get() = _selectedComic
 
     init {
         _selectedComic.value = comic

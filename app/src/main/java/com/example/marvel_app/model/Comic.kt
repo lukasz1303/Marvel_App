@@ -9,5 +9,6 @@ data class Comic(
     val imageUrl: String?,
     val imageExtension: String?,
     val description: String?,
-    val authors: List<String>?
-) :Parcelable
+    val authors: List<String>?,
+    val detailUrl: String?
+) : Parcelable

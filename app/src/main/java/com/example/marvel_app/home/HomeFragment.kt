@@ -55,8 +55,9 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, Observer {
-            if(null != it){
-                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+            if (null != it) {
+                this.findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
                 viewModel.displayComicDetailComplete()
             }
         })
