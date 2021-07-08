@@ -34,10 +34,14 @@ fun formatAuthors(textView: TextView, authors: List<String>?) {
     }
 }
 
-@BindingAdapter("image_url")
-fun bindImage(imgView: ImageView, imageUrl: String?) {
+@BindingAdapter("image_url", "image_resolution", "image_extension", requireAll = false)
+fun bindImage(imgView: ImageView, imageUrl: String?, imageResolution: Int?, imageExtension: String?) {
     imageUrl?.let {
-        val imgUri = imageUrl.toUri().buildUpon().scheme("http").build()
+        val validUrl = when (imageResolution){
+            0 -> "${imageUrl}/portrait_medium.$imageExtension"
+            else -> "${imageUrl}.$imageExtension"
+        }
+        val imgUri = validUrl.toUri().buildUpon().scheme("http").build()
         Glide.with(imgView.context)
             .load(imgUri)
             .listener(object : RequestListener<Drawable> {

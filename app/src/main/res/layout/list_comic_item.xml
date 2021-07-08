@@ -49,7 +49,9 @@
                         android:layout_width="@dimen/comic_image_width"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/comic_icon_description"
-                        app:image_url="@{viewHolder.imageUrl}" />
+                        app:image_url="@{viewHolder.imageUrl}"
+                        app:image_resolution="@{(0)}"
+                        app:image_extension="@{viewHolder.imageExtension}"/>
                 </androidx.cardview.widget.CardView>
 
 

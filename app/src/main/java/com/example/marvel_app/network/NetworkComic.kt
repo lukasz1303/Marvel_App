@@ -33,7 +33,8 @@ fun List<NetworkComic>.asDomainModel(): List<Comic> {
         }
         Comic(
             title = itComic.title,
-            imageUrl = imageUrl,
+            imageUrl = itComic.thumbnail?.path,
+            imageExtension = itComic.thumbnail?.extension,
             description = description,
             authors = authors
         )
