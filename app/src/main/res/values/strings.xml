@@ -3,4 +3,7 @@
     <string name="written_by">Written by</string>
     <string name="comic_icon_description">Icon of Marvel Comic</string>
     <string name="error_message">Error occurred :(</string>
+    <string name="find_out_more">Find out more</string>
+    <string name="rectangle_up_image_description">Rectangle up image</string>
+    <string name="comic_image_description">Comic image</string>
 </resources>

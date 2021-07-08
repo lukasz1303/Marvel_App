@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.UIState
@@ -26,12 +28,34 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        setupAdapter(binding)
+        initStateObserver(binding)
+        setupNavigationToDetailScreen()
+
+        return binding.root
+    }
+
+    private fun setupNavigationToDetailScreen() {
+        viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                this.findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+                viewModel.displayComicDetailComplete()
+            }
+        })
+    }
+
+    private fun setupAdapter(binding: FragmentHomeBinding){
         val manager = GridLayoutManager(activity, 1)
         binding.comicsListHome.apply {
             layoutManager = manager
-            adapter = ComicsAdapter()
+            adapter = ComicsAdapter {
+                viewModel.displayComicDetail(it)
+            }
         }
+    }
 
+    private fun initStateObserver(binding: FragmentHomeBinding){
         viewModel.state.observe(viewLifecycleOwner, {
             when (it) {
                 is UIState.InProgress -> {
@@ -48,7 +72,5 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-
-        return binding.root
     }
 }

@@ -9,5 +9,17 @@
         android:id="@+id/homeFragment"
         android:name="com.example.marvel_app.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.marvel_app.detail.DetailFragment"
+        android:label="DetailFragment">
+        <argument
+            android:name="selectedComic"
+            app:argType="com.example.marvel_app.model.Comic" />
+    </fragment>
 </navigation>

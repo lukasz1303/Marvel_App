@@ -23,6 +23,10 @@ class HomeViewModel : ViewModel() {
         _state.value = UIState.Error
     }
 
+    private val _navigateToSelectedComic = MutableLiveData<Comic>()
+    val navigateToSelectedComic: LiveData<Comic>
+        get() = _navigateToSelectedComic
+
     val comics = MutableLiveData<List<Comic>>()
 
     init {
@@ -35,5 +39,13 @@ class HomeViewModel : ViewModel() {
             comics.value = comicsRepository.refreshComics()
             _state.value = UIState.Success
         }
+    }
+
+    fun displayComicDetail(comic: Comic) {
+        _navigateToSelectedComic.value = comic
+    }
+
+    fun displayComicDetailComplete() {
+        _navigateToSelectedComic.value = null
     }
 }

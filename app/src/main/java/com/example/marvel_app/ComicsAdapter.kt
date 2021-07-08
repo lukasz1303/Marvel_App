@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.marvel_app.databinding.ListComicItemBinding
 import com.example.marvel_app.model.Comic
 
-class ComicsAdapter : ListAdapter<Comic, ComicsAdapter.ComicViewHolder>(ComicDiffCallback()) {
+class ComicsAdapter(private val onClickListener: (comic: Comic) -> Unit) :
+    ListAdapter<Comic, ComicsAdapter.ComicViewHolder>(ComicDiffCallback()) {
 
     class ComicViewHolder(private val binding: ListComicItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -34,6 +35,10 @@ class ComicsAdapter : ListAdapter<Comic, ComicsAdapter.ComicViewHolder>(ComicDif
     }
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
+        val comic = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.invoke(comic)
+        }
         holder.bind(getItem(position))
     }
 }

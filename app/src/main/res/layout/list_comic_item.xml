@@ -49,6 +49,8 @@
                         android:layout_width="@dimen/comic_image_width"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/comic_icon_description"
+                        app:image_extension="@{viewHolder.imageExtension}"
+                        app:image_resolution="@{(0)}"
                         app:image_url="@{viewHolder.imageUrl}" />
                 </androidx.cardview.widget.CardView>
 
@@ -87,7 +89,7 @@
                         android:layout_marginTop="@dimen/comic_text_margin"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:textColor="@color/very_ligth_pink"
+                        android:textColor="@color/very_light_pink"
                         android:textSize="@dimen/comic_authors_text_size"
                         android:visibility="@{(viewHolder.authors == null || viewHolder.authors.size == 0) ? View.GONE : View.VISIBLE}"
                         app:authors="@{viewHolder.authors}"
