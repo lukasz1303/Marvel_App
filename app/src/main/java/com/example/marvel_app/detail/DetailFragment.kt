@@ -30,6 +30,12 @@ class DetailFragment : Fragment() {
 
         BottomSheetBehavior.from(binding.bottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
 
+        setupFindOutMoreButtonListener(binding)
+        
+        return binding.root
+    }
+
+    private fun setupFindOutMoreButtonListener(binding: FragmentDetailBinding) {
         binding.findOutMoreButton.setOnClickListener {
             val webIntent = Intent(
                 Intent.ACTION_VIEW,
@@ -37,8 +43,6 @@ class DetailFragment : Fragment() {
             )
             requireActivity().startActivity(webIntent)
         }
-
-        return binding.root
     }
 
 }

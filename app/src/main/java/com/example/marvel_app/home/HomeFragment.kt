@@ -28,6 +28,24 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        setupAdapter(binding)
+        initStateObserver(binding)
+        setupNavigationToDetailScreen()
+
+        return binding.root
+    }
+
+    private fun setupNavigationToDetailScreen() {
+        viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                this.findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+                viewModel.displayComicDetailComplete()
+            }
+        })
+    }
+
+    private fun setupAdapter(binding: FragmentHomeBinding){
         val manager = GridLayoutManager(activity, 1)
         binding.comicsListHome.apply {
             layoutManager = manager
@@ -35,7 +53,9 @@ class HomeFragment : Fragment() {
                 viewModel.displayComicDetail(it)
             }
         }
+    }
 
+    private fun initStateObserver(binding: FragmentHomeBinding){
         viewModel.state.observe(viewLifecycleOwner, {
             when (it) {
                 is UIState.InProgress -> {
@@ -52,15 +72,5 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-
-        viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, Observer {
-            if (null != it) {
-                this.findNavController()
-                    .navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
-                viewModel.displayComicDetailComplete()
-            }
-        })
-
-        return binding.root
     }
 }
