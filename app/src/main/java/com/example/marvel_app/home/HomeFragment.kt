@@ -1,13 +1,11 @@
 package com.example.marvel_app.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -47,9 +45,12 @@ class HomeFragment : Fragment() {
 
     private fun setupSearchViewModelObserver() {
         searchViewModel.inSearching.observe(viewLifecycleOwner, { searching ->
-            viewModel.comics.value = listOf()
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-            if( searching && viewModel.state.value !is UIState.InSearching){
+            if(searching){
+                if(viewModel.searchingTitle.value == null){
+                    viewModel.comics.value = listOf()
+                }
+
                 viewModel.changeState(UIState.InSearching)
                 binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                     override fun onQueryTextChange(newText: String?): Boolean {
@@ -92,13 +93,13 @@ class HomeFragment : Fragment() {
 
     private fun initStateObserver(){
         viewModel.state.observe(viewLifecycleOwner, {
-            Log.i("HomeFragment", it.toString())
             when (it) {
                 is UIState.InProgress -> {
                     binding.homeProgressBar.visibility = View.VISIBLE
                     binding.homeErrorTextView.visibility = View.GONE
-                    binding.searchingEmptyTextView.visibility = View.GONE
                     binding.searchingErrorTextView.visibility = View.GONE
+                    binding.searchingEmptyTextView.visibility = View.GONE
+
                 }
                 is UIState.HomeError -> {
                     binding.homeErrorTextView.visibility = View.VISIBLE
@@ -106,7 +107,9 @@ class HomeFragment : Fragment() {
                 }
                 is UIState.InSearching -> {
                     binding.searchViewHome.visibility = View.VISIBLE
-                    binding.searchingEmptyTextView.visibility = View.VISIBLE
+                    if (viewModel.searchingTitle.value == null){
+                        binding.searchingEmptyTextView.visibility = View.VISIBLE
+                    }
                 }
                 is UIState.SearchingError -> {
                     binding.searchingErrorTextView.text = getString(R.string.error_searching_message, viewModel.searchingTitle.value)
@@ -116,7 +119,6 @@ class HomeFragment : Fragment() {
                 else -> {
                     binding.homeProgressBar.visibility = View.GONE
                     binding.homeErrorTextView.visibility = View.GONE
-                    //binding.searchViewHome.visibility = View.GONE
                 }
             }
         })
