@@ -17,10 +17,14 @@ class HomeViewModel : ViewModel() {
     val state: LiveData<UIState>
         get() = _state
 
+    fun changeState(state: UIState){
+        _state.value = state
+    }
+
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         Log.i("HomeViewModel", "Failure: ${exception.message}")
-        _state.value = UIState.Error
+        _state.value = UIState.HomeError
     }
 
     private val _navigateToSelectedComic = MutableLiveData<Comic>()
@@ -33,7 +37,7 @@ class HomeViewModel : ViewModel() {
         refreshComicsFromRepository()
     }
 
-    private fun refreshComicsFromRepository() {
+    fun refreshComicsFromRepository() {
         _state.value = UIState.InProgress
         viewModelScope.launch(exceptionHandler) {
             comics.value = comicsRepository.refreshComics()
