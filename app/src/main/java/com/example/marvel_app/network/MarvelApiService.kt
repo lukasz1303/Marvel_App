@@ -7,7 +7,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 
 private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
@@ -30,7 +29,8 @@ interface MarvelApiService {
     suspend fun getResponseAsync(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
-        @Query("orderBy") orderBy: String
+        @Query("orderBy") orderBy: String,
+        @Query("title") title: String?
     ): Response<NetworkResponse>
 }
 

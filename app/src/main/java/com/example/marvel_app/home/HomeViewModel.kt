@@ -21,6 +21,10 @@ class HomeViewModel : ViewModel() {
         _state.value = state
     }
 
+    private val _searchingTitle = MutableLiveData<String>()
+    val searchingTitle: LiveData<String>
+        get() = _searchingTitle
+
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         Log.i("HomeViewModel", "Failure: ${exception.message}")
@@ -34,14 +38,19 @@ class HomeViewModel : ViewModel() {
     val comics = MutableLiveData<List<Comic>>()
 
     init {
-        refreshComicsFromRepository()
+        refreshComicsFromRepository(null)
     }
 
-    fun refreshComicsFromRepository() {
+    fun refreshComicsFromRepository(title: String?) {
         _state.value = UIState.InProgress
+        _searchingTitle.value = title
         viewModelScope.launch(exceptionHandler) {
-            comics.value = comicsRepository.refreshComics()
-            _state.value = UIState.Success
+            comics.value = comicsRepository.refreshComics(title)
+            if(comics.value?.isEmpty() == true && title != null){
+                _state.value = UIState.SearchingError
+            } else{
+                _state.value = UIState.Success
+            }
         }
     }
 

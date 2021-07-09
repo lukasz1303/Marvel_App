@@ -22,4 +22,5 @@
     <dimen name="find_out_more_button_text_size">16sp</dimen>
     <dimen name="find_out_more_button_bottom_margin">16dp</dimen>
     <dimen name="detail_scroll_view_bottom_margin">97dp</dimen>
+    <dimen name="home_screen_info_message_margin">16dp</dimen>
 </resources>

@@ -8,4 +8,7 @@
     <string name="comic_image_description">Comic image</string>
     <string name="home_bottom_navigation">Home</string>
     <string name="search_bottom_navigation">Search</string>
+    <string name="empty_searching_message">Start typing to find a particular comics.</string>
+    <string name="error_searching_message">There is not comic book \"%1$s\" in our library. Check the spelling and try again.</string>
+
 </resources>

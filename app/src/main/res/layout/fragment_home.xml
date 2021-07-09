@@ -37,16 +37,32 @@
 
         <TextView
             android:id="@+id/home_error_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/error_message"
-            android:textColor="@color/black"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Error occurred :(" />
+            tools:text="Error occurred :("
+            style="@style/home_screen_message_style"/>
+
+        <TextView
+            android:id="@+id/searching_error_textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Theres no comic ..."
+            style="@style/home_screen_message_style" />
+
+        <TextView
+            android:id="@+id/searching_empty_textView"
+            android:text="@string/empty_searching_message"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Start typing..."
+            style="@style/home_screen_message_style"/>
 
         <ProgressBar
             android:id="@+id/home_progress_bar"
