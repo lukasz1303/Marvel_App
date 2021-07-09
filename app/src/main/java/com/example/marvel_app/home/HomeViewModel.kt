@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
     val state: LiveData<UIState>
         get() = _state
 
-    fun changeState(state: UIState){
+    fun changeState(state: UIState) {
         _state.value = state
     }
 
@@ -29,6 +29,13 @@ class HomeViewModel : ViewModel() {
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         Log.i("HomeViewModel", "Failure: ${exception.message}")
         _state.value = UIState.HomeError
+    }
+
+    private val mutableInSearching = MutableLiveData<Boolean>()
+    val inSearching: LiveData<Boolean> get() = mutableInSearching
+
+    fun setInSearching(inSearching: Boolean) {
+        mutableInSearching.value = inSearching
     }
 
     private val _navigateToSelectedComic = MutableLiveData<Comic>()
@@ -46,9 +53,9 @@ class HomeViewModel : ViewModel() {
         _searchingTitle.value = title
         viewModelScope.launch(exceptionHandler) {
             comics.value = comicsRepository.refreshComics(title)
-            if(comics.value?.isEmpty() == true && title != null){
+            if (comics.value?.isEmpty() == true && title != null) {
                 _state.value = UIState.SearchingError
-            } else{
+            } else {
                 _state.value = UIState.Success
             }
         }
@@ -60,5 +67,12 @@ class HomeViewModel : ViewModel() {
 
     fun displayComicDetailComplete() {
         _navigateToSelectedComic.value = null
+    }
+
+    fun initFragmentForSearching() {
+        if (_searchingTitle.value == null) {
+            comics.value = listOf()
+        }
+        changeState(UIState.InSearching)
     }
 }

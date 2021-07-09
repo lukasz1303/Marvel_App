@@ -8,23 +8,18 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.R
-import com.example.marvel_app.SearchViewModel
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
-    }
+    private val viewModel: HomeViewModel by activityViewModels()
 
     private lateinit var binding: FragmentHomeBinding
-    private val searchViewModel: SearchViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,33 +33,33 @@ class HomeFragment : Fragment() {
         setupAdapter()
         initStateObserver()
         setupNavigationToDetailScreen()
-        setupSearchViewModelObserver()
+        setupBottomNavigationStateObserver()
+        setupSearchView()
 
         return binding.root
     }
 
-    private fun setupSearchViewModelObserver() {
-        searchViewModel.inSearching.observe(viewLifecycleOwner, { searching ->
+    private fun setupSearchView() {
+        binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                binding.searchingEmptyTextView.visibility = View.GONE
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.refreshComicsFromRepository(query)
+                return true
+            }
+        })
+    }
+
+    private fun setupBottomNavigationStateObserver() {
+        viewModel.inSearching.observe(viewLifecycleOwner, { searching ->
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-            if(searching){
-                if(viewModel.searchingTitle.value == null){
-                    viewModel.comics.value = listOf()
-                }
-
-                viewModel.changeState(UIState.InSearching)
-                binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                            binding.searchingEmptyTextView.visibility = View.GONE
-                        return false
-                    }
-
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        viewModel.refreshComicsFromRepository(query)
-                        return true
-                    }
-                })
-            } else if(!searching){
-                (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+            if (searching) {
+                viewModel.initFragmentForSearching()
+            } else {
+                (activity as AppCompatActivity?)?.supportActionBar?.show()
                 viewModel.refreshComicsFromRepository(null)
                 binding.searchViewHome.visibility = View.GONE
             }
@@ -73,7 +68,7 @@ class HomeFragment : Fragment() {
 
     private fun setupNavigationToDetailScreen() {
         viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, {
-            it?.let{
+            it?.let {
                 this.findNavController()
                     .navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
                 viewModel.displayComicDetailComplete()
@@ -81,7 +76,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun setupAdapter(){
+    private fun setupAdapter() {
         val manager = GridLayoutManager(activity, 1)
         binding.comicsListHome.apply {
             layoutManager = manager
@@ -91,7 +86,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initStateObserver(){
+    private fun initStateObserver() {
         viewModel.state.observe(viewLifecycleOwner, {
             when (it) {
                 is UIState.InProgress -> {
@@ -99,7 +94,6 @@ class HomeFragment : Fragment() {
                     binding.homeErrorTextView.visibility = View.GONE
                     binding.searchingErrorTextView.visibility = View.GONE
                     binding.searchingEmptyTextView.visibility = View.GONE
-
                 }
                 is UIState.HomeError -> {
                     binding.homeErrorTextView.visibility = View.VISIBLE
@@ -107,12 +101,13 @@ class HomeFragment : Fragment() {
                 }
                 is UIState.InSearching -> {
                     binding.searchViewHome.visibility = View.VISIBLE
-                    if (viewModel.searchingTitle.value == null){
+                    if (viewModel.searchingTitle.value == null) {
                         binding.searchingEmptyTextView.visibility = View.VISIBLE
                     }
                 }
                 is UIState.SearchingError -> {
-                    binding.searchingErrorTextView.text = getString(R.string.error_searching_message, viewModel.searchingTitle.value)
+                    binding.searchingErrorTextView.text =
+                        getString(R.string.error_searching_message, viewModel.searchingTitle.value)
                     binding.searchingErrorTextView.visibility = View.VISIBLE
                     binding.homeProgressBar.visibility = View.GONE
                 }

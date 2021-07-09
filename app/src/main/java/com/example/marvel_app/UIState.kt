@@ -5,5 +5,5 @@ sealed class UIState {
     object HomeError : UIState()
     object Success : UIState()
     object InSearching : UIState()
-    object SearchingError: UIState()
+    object SearchingError : UIState()
 }
