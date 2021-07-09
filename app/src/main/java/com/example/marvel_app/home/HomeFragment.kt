@@ -30,13 +30,16 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupAdapter()
         initStateObserver()
         setupNavigationToDetailScreen()
         setupBottomNavigationStateObserver()
         setupSearchView()
-
-        return binding.root
     }
 
     private fun setupSearchView() {
