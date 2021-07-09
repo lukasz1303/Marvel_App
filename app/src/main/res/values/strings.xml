@@ -6,4 +6,9 @@
     <string name="find_out_more">Find out more</string>
     <string name="rectangle_up_image_description">Rectangle up image</string>
     <string name="comic_image_description">Comic image</string>
+    <string name="home_bottom_navigation">Home</string>
+    <string name="search_bottom_navigation">Search</string>
+    <string name="empty_searching_message">Start typing to find a particular comics.</string>
+    <string name="error_searching_message">There is not comic book \"%1$s\" in our library. Check the spelling and try again.</string>
+
 </resources>

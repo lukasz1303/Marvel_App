@@ -17,10 +17,25 @@ class HomeViewModel : ViewModel() {
     val state: LiveData<UIState>
         get() = _state
 
+    fun changeState(state: UIState) {
+        _state.value = state
+    }
+
+    private val _searchingTitle = MutableLiveData<String>()
+    val searchingTitle: LiveData<String>
+        get() = _searchingTitle
+
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         Log.i("HomeViewModel", "Failure: ${exception.message}")
-        _state.value = UIState.Error
+        _state.value = UIState.HomeError
+    }
+
+    private val mutableInSearching = MutableLiveData<Boolean>()
+    val inSearching: LiveData<Boolean> get() = mutableInSearching
+
+    fun setInSearching(inSearching: Boolean) {
+        mutableInSearching.value = inSearching
     }
 
     private val _navigateToSelectedComic = MutableLiveData<Comic>()
@@ -30,14 +45,19 @@ class HomeViewModel : ViewModel() {
     val comics = MutableLiveData<List<Comic>>()
 
     init {
-        refreshComicsFromRepository()
+        refreshComicsFromRepository(null)
     }
 
-    private fun refreshComicsFromRepository() {
+    fun refreshComicsFromRepository(title: String?) {
         _state.value = UIState.InProgress
+        _searchingTitle.value = title
         viewModelScope.launch(exceptionHandler) {
-            comics.value = comicsRepository.refreshComics()
-            _state.value = UIState.Success
+            comics.value = comicsRepository.refreshComics(title)
+            if (comics.value?.isEmpty() == true && title != null) {
+                _state.value = UIState.SearchingError
+            } else {
+                _state.value = UIState.Success
+            }
         }
     }
 
@@ -47,5 +67,12 @@ class HomeViewModel : ViewModel() {
 
     fun displayComicDetailComplete() {
         _navigateToSelectedComic.value = null
+    }
+
+    fun initFragmentForSearching() {
+        if (_searchingTitle.value == null) {
+            comics.value = listOf()
+        }
+        changeState(UIState.InSearching)
     }
 }

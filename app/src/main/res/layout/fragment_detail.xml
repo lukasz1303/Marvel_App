@@ -28,13 +28,13 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/comic_image_description"
                 app:image_extension="@{viewModel.selectedComic.imageExtension}"
                 app:image_resolution="@{(1)}"
                 app:image_url="@{viewModel.selectedComic.imageUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/comic_image_description" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -51,11 +51,11 @@
                 android:layout_width="@dimen/rectangle_up_width"
                 android:layout_height="@dimen/rectangle_up_height"
                 android:layout_marginTop="@dimen/rectangle_up_margin_top"
+                android:contentDescription="@string/rectangle_up_image_description"
                 android:src="@drawable/rectangle_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/rectangle_up_image_description"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ScrollView
                 android:layout_width="match_parent"
