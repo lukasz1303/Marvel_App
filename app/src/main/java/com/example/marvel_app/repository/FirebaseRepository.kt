@@ -16,4 +16,8 @@ class FirebaseRepository {
     fun signUpWithEmail(email: String, password: String): Task<AuthResult> {
         return auth.createUserWithEmailAndPassword(email, password)
     }
+
+    fun signOut() {
+        auth.signOut()
+    }
 }

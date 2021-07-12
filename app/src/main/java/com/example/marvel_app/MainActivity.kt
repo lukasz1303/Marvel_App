@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
             if (destination.id == R.id.homeFragment ){
                 bottomNavigationView.visibility = View.VISIBLE
             }
+            if (destination.id == R.id.loginFragment ){
+                bottomNavigationView.visibility = View.GONE
+            }
         }
     }
 }

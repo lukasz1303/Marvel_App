@@ -1,13 +1,12 @@
 package com.example.marvel_app.home
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
@@ -18,7 +17,7 @@ import com.example.marvel_app.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by activityViewModels()
-
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -29,7 +28,8 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
+        navController = this.findNavController()
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -41,6 +41,19 @@ class HomeFragment : Fragment() {
         setupBottomNavigationStateObserver()
         setupSearchView()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.settings_menu) {
+            navController.navigate(HomeFragmentDirections.actionHomeFragmentToSettingsFragment())
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun setupSearchView() {
         binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -72,7 +85,7 @@ class HomeFragment : Fragment() {
     private fun setupNavigationToDetailScreen() {
         viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController()
+                navController
                     .navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
                 viewModel.displayComicDetailComplete()
             }
