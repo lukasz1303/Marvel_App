@@ -2,7 +2,10 @@ package com.example.marvel_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.marvel_app.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -25,6 +28,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 else -> false
+            }
+        }
+
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.homeFragment ){
+                bottomNavigationView.visibility = View.VISIBLE
             }
         }
     }
