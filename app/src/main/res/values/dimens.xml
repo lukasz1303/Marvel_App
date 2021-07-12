@@ -23,4 +23,7 @@
     <dimen name="find_out_more_button_bottom_margin">16dp</dimen>
     <dimen name="detail_scroll_view_bottom_margin">97dp</dimen>
     <dimen name="home_screen_info_message_margin">16dp</dimen>
+    <dimen name="login_screen_margin">16dp</dimen>
+    <dimen name="login_screen_welcome_text_size">20sp</dimen>
+    <dimen name="login_screen_button_margin">32dp</dimen>
 </resources>
