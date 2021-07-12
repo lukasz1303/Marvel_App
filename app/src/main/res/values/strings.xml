@@ -20,4 +20,6 @@
     <string name="name">Name:</string>
     <string name="sign_up_successful">Sign up successful</string>
     <string name="sign_up_failure">Sign up failed</string>
+    <string name="authentication_successful">Authentication successful.</string>
+    <string name="authentication_failed">Authentication failed.</string>
 </resources>

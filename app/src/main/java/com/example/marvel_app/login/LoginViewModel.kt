@@ -1,0 +1,40 @@
+package com.example.marvel_app.login
+
+import android.app.Activity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.marvel_app.UIState
+import com.example.marvel_app.repository.FirebaseRepository
+
+class LoginViewModel : ViewModel() {
+
+    private val firebaseRepository = FirebaseRepository()
+
+    private val _state = MutableLiveData<UIState>()
+    val state: LiveData<UIState>
+        get() = _state
+
+
+    fun signInWithEmail(activity: Activity, email: String, password: String) {
+        val result = firebaseRepository.signInWithEmail(email, password)
+        result.addOnCompleteListener(activity) { task ->
+            if (task.isSuccessful) {
+                _state.value = UIState.Success
+            } else {
+                _state.value = UIState.Error
+            }
+        }
+    }
+
+    fun signUpWithEmail(activity: Activity, email: String, password: String) {
+        val result = firebaseRepository.signUpWithEmail(email, password)
+        result.addOnCompleteListener(activity) { task ->
+            if (task.isSuccessful) {
+                _state.value = UIState.Success
+            } else {
+                _state.value = UIState.Error
+            }
+        }
+    }
+}

@@ -36,10 +36,10 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_singUpFragment"
-            app:destination="@id/singUpFragment" />
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
-        android:id="@+id/singUpFragment"
+        android:id="@+id/signUpFragment"
         android:name="com.example.marvel_app.login.SignUpFragment"
         android:label="fragment_sing_up"
         tools:layout="@layout/fragment_sign_up" />

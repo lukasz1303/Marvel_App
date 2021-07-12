@@ -1,14 +1,16 @@
 package com.example.marvel_app.login
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.marvel_app.R
+import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
@@ -19,6 +21,8 @@ class LoginFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var navController: NavController
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +31,7 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(inflater)
         binding.lifecycleOwner = this
         auth = Firebase.auth
+        navController = this.findNavController()
         return binding.root
 
     }
@@ -36,42 +41,42 @@ class LoginFragment : Fragment() {
 
         initSignUpButton()
         initSignInButton()
+        initStateObserver()
     }
 
     private fun initSignUpButton() {
         binding.goToSignUpButton.setOnClickListener {
-            this.findNavController()
+            navController
                 .navigate(LoginFragmentDirections.actionLoginFragmentToSingUpFragment())
         }
     }
 
-    private fun initSignInButton(){
+    private fun initSignInButton() {
         binding.signInButton.setOnClickListener {
             val email = binding.emailSignInEditText.editableText.toString()
             val password = binding.passwordSignInEditText.editableText.toString()
-            signIn(email, password)
+            activity?.let { it1 -> viewModel.signInWithEmail(it1, email, password) }
         }
     }
 
-    private fun signIn(email: String, password: String) {
-        activity?.let {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(it) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            activity, "Authentication successful.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        this.findNavController()
-                            .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
-                    } else {
-                        Toast.makeText(
-                            activity, "Authentication failed.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+    private fun initStateObserver() {
+        viewModel.state.observe(viewLifecycleOwner, {
+            when (it) {
+                is UIState.Success -> {
+                    Toast.makeText(
+                        activity, R.string.authentication_successful,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navController
+                        .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                 }
-        }
+                else -> {
+                    Toast.makeText(
+                        activity, R.string.authentication_failed,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
     }
-
 }

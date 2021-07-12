@@ -28,7 +28,7 @@ class HomeViewModel : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         Log.i("HomeViewModel", "Failure: ${exception.message}")
-        _state.value = UIState.HomeError
+        _state.value = UIState.Error
     }
 
     private val mutableInSearching = MutableLiveData<Boolean>()
