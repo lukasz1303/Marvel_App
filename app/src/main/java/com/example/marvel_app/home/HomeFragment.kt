@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
                     binding.searchingErrorTextView.visibility = View.GONE
                     binding.searchingEmptyTextView.visibility = View.GONE
                 }
-                is UIState.HomeError -> {
+                is UIState.Error -> {
                     binding.homeErrorTextView.visibility = View.VISIBLE
                     binding.homeProgressBar.visibility = View.GONE
                 }
