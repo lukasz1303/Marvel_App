@@ -1,10 +1,12 @@
 package com.example.marvel_app.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.marvel_app.databinding.FragmentLoginBinding
@@ -35,13 +37,42 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initSignUpButton()
-
+        initSignInButton()
     }
 
     private fun initSignUpButton() {
         binding.goToSignUpButton.setOnClickListener {
             this.findNavController()
                 .navigate(LoginFragmentDirections.actionLoginFragmentToSingUpFragment())
+        }
+    }
+
+    private fun initSignInButton(){
+        binding.signInButton.setOnClickListener {
+            val email = binding.emailSignInEditText.editableText.toString()
+            val password = binding.passwordSignInEditText.editableText.toString()
+            signIn(email, password)
+        }
+    }
+
+    private fun signIn(email: String, password: String) {
+        activity?.let {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(it) { task ->
+                    if (task.isSuccessful) {
+                        Log.d("SING IN", "signInWithEmail:success")
+                        Toast.makeText(
+                            activity, "Authentication successful.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Log.w("SING IN", "signInWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            activity, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
     }
 
