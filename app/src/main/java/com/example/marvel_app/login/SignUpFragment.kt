@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentSignUpBinding
+import java.lang.Exception
 
 
 class SignUpFragment : Fragment() {

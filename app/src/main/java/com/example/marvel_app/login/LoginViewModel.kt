@@ -19,7 +19,7 @@ class LoginViewModel : ViewModel() {
     fun signInWithEmail(email: String, password: String) {
         val result = firebaseRepository.signInWithEmail(email, password)
 
-        val a = result.addOnCompleteListener { task ->
+        result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 _state.value = UIState.Success
             } else {
