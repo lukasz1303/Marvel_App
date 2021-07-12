@@ -10,9 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.marvel_app.R
-import com.example.marvel_app.databinding.FragmentLoginBinding
 import com.example.marvel_app.databinding.FragmentSettingsBinding
-import com.example.marvel_app.login.LoginViewModel
 
 class SettingsFragment : Fragment() {
 
