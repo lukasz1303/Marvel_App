@@ -17,7 +17,8 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.marvel_app.detail.DetailFragment"
-        android:label="DetailFragment">
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="selectedComic"
             app:argType="com.example.marvel_app.model.Comic" />
@@ -26,9 +27,17 @@
         android:id="@+id/loginFragment"
         android:name="com.example.marvel_app.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_singUpFragment"
+            app:destination="@id/singUpFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/singUpFragment"
+        android:name="com.example.marvel_app.login.SignUpFragment"
+        android:label="fragment_sing_up"
+        tools:layout="@layout/fragment_sign_up" />
 </navigation>

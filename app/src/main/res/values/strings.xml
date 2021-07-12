@@ -10,7 +10,7 @@
     <string name="search_bottom_navigation">Search</string>
     <string name="empty_searching_message">Start typing to find a particular comics.</string>
     <string name="error_searching_message">There is not comic book \"%1$s\" in our library. Check the spelling and try again.</string>
-    <string name="login">Login</string>
+    <string name="email">Email</string>
     <string name="password">Password:</string>
     <string name="welcome_in_marvel_app">Welcome in Marvel App!</string>
     <string name="sign_in">Sign in</string>
@@ -18,5 +18,6 @@
     <string name="you_don_t_have_an_account_click_sign_up_button">You don\'t have an account? Click Sign up button</string>
     <string name="sign_up_in_marvel_app">Sign up in Marvel App!</string>
     <string name="name">Name:</string>
-
+    <string name="sign_up_successful">Sign up successful</string>
+    <string name="sign_up_failure">Sign up failed</string>
 </resources>

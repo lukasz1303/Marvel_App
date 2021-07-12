@@ -3,7 +3,6 @@ package com.example.marvel_app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.marvel_app.databinding.ActivityMainBinding
 import com.example.marvel_app.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
