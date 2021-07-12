@@ -60,13 +60,13 @@ class LoginFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(it) { task ->
                     if (task.isSuccessful) {
-                        Log.d("SING IN", "signInWithEmail:success")
                         Toast.makeText(
                             activity, "Authentication successful.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        this.findNavController()
+                            .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                     } else {
-                        Log.w("SING IN", "signInWithEmail:failure", task.exception)
                         Toast.makeText(
                             activity, "Authentication failed.",
                             Toast.LENGTH_SHORT

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.example.marvel_app.R
 import com.example.marvel_app.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -49,7 +50,8 @@ class SignUpFragment : Fragment() {
                     if (task.isSuccessful) {
                         Toast.makeText(activity, R.string.sign_up_successful, Toast.LENGTH_SHORT)
                             .show()
-                        val user = auth.currentUser
+                        requireActivity().supportFragmentManager.popBackStack()
+
                     } else {
                         Toast.makeText(activity, R.string.sign_up_failure, Toast.LENGTH_SHORT)
                             .show()
