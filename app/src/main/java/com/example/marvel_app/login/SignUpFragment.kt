@@ -7,19 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentSignUpBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 
 class SignUpFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSignUpBinding
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -28,7 +27,8 @@ class SignUpFragment : Fragment() {
     ): View {
         binding = FragmentSignUpBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        auth = Firebase.auth
+        navController = this.findNavController()
+
         return binding.root
     }
 
@@ -43,7 +43,7 @@ class SignUpFragment : Fragment() {
         binding.signUpButton.setOnClickListener {
             val email = binding.emailSignUpEditText.editableText.toString()
             val password = binding.passwordSignUpEditText.editableText.toString()
-            activity?.let { it1 -> viewModel.signUpWithEmail(it1, email, password) }
+            viewModel.signUpWithEmail(email, password)
         }
     }
 
@@ -55,7 +55,7 @@ class SignUpFragment : Fragment() {
                         activity, R.string.sign_up_successful,
                         Toast.LENGTH_SHORT
                     ).show()
-                    activity?.onBackPressed()
+                    navController.navigateUp()
                 }
                 else -> {
                     Toast.makeText(

@@ -12,14 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentLoginBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.auth.ktx.auth
 
 
 class LoginFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
     private val viewModel: LoginViewModel by viewModels()
@@ -30,7 +26,6 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        auth = Firebase.auth
         navController = this.findNavController()
         return binding.root
 
@@ -55,7 +50,7 @@ class LoginFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             val email = binding.emailSignInEditText.editableText.toString()
             val password = binding.passwordSignInEditText.editableText.toString()
-            activity?.let { it1 -> viewModel.signInWithEmail(it1, email, password) }
+            activity?.let { viewModel.signInWithEmail(email, password) }
         }
     }
 

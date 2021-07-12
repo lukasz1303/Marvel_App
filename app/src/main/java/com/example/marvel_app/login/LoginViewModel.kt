@@ -16,9 +16,10 @@ class LoginViewModel : ViewModel() {
         get() = _state
 
 
-    fun signInWithEmail(activity: Activity, email: String, password: String) {
+    fun signInWithEmail(email: String, password: String) {
         val result = firebaseRepository.signInWithEmail(email, password)
-        result.addOnCompleteListener(activity) { task ->
+
+        val a = result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 _state.value = UIState.Success
             } else {
@@ -27,9 +28,9 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun signUpWithEmail(activity: Activity, email: String, password: String) {
+    fun signUpWithEmail(email: String, password: String) {
         val result = firebaseRepository.signUpWithEmail(email, password)
-        result.addOnCompleteListener(activity) { task ->
+        result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 _state.value = UIState.Success
             } else {
