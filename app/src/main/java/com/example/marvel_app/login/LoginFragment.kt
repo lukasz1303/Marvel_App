@@ -58,6 +58,7 @@ class LoginFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner, {
             when (it) {
                 is UIState.Success -> {
+                    binding.loginProgressBar.visibility = View.GONE
                     Toast.makeText(
                         activity, R.string.authentication_successful,
                         Toast.LENGTH_SHORT
@@ -65,7 +66,12 @@ class LoginFragment : Fragment() {
                     navController
                         .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                 }
+                is UIState.InProgress -> {
+                    binding.loginProgressBar.visibility = View.VISIBLE
+                }
                 else -> {
+                    binding.loginProgressBar.visibility = View.GONE
+
                     Toast.makeText(
                         activity, R.string.authentication_failed,
                         Toast.LENGTH_SHORT
