@@ -11,4 +11,5 @@
     <color name="gray_300">#E0E0E0</color>
     <color name="strawberry">#f33335</color>
     <color name="strawberry_dark">#b8000d</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
