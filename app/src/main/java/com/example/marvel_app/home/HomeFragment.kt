@@ -71,13 +71,14 @@ class HomeFragment : Fragment() {
 
     private fun setupBottomNavigationStateObserver() {
         viewModel.inSearching.observe(viewLifecycleOwner, { searching ->
-            (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             if (searching) {
                 viewModel.initFragmentForSearching()
+                (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
                 viewModel.refreshComicsFromRepository(null)
                 binding.searchViewHome.visibility = View.GONE
+                binding.searchViewHome.setQuery("", false)
             }
         })
     }
@@ -117,6 +118,9 @@ class HomeFragment : Fragment() {
                 }
                 is UIState.InSearching -> {
                     binding.searchViewHome.visibility = View.VISIBLE
+                    binding.homeErrorTextView.visibility = View.GONE
+                    binding.homeProgressBar.visibility = View.GONE
+
                     if (viewModel.searchingTitle.value == null) {
                         binding.searchingEmptyTextView.visibility = View.VISIBLE
                     }

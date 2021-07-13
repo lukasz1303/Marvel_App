@@ -35,6 +35,7 @@ class HomeViewModel : ViewModel() {
     val inSearching: LiveData<Boolean> get() = mutableInSearching
 
     fun setInSearching(inSearching: Boolean) {
+        viewModelScope.coroutineContext.cancelChildren()
         mutableInSearching.value = inSearching
     }
 
@@ -49,6 +50,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun refreshComicsFromRepository(title: String?) {
+        comics.value = listOf()
         _state.value = UIState.InProgress
         _searchingTitle.value = title
         viewModelScope.launch(exceptionHandler) {
@@ -70,9 +72,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun initFragmentForSearching() {
-        if (_searchingTitle.value == null) {
-            comics.value = listOf()
-        }
+        comics.value = listOf()
         changeState(UIState.InSearching)
     }
 }
