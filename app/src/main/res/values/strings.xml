@@ -22,9 +22,12 @@
     <string name="sign_up_failure">Sign up failed</string>
     <string name="authentication_successful">Authentication successful.</string>
     <string name="authentication_failed">Authentication failed.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
     <string name="logout_successful">Logout successful</string>
+    <string name="login_action_bar_title">Login</string>
+    <string name="sign_up_action_bar_title">Sign Up</string>
+    <string name="home_action_bar_title">Marvel Comics</string>
+    <string name="detail_action_bar_title">Detail</string>
+    <string name="settings_action_bar_title">Settings</string>
 </resources>

@@ -4,17 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.marvel_app.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        navController = findNavController(R.id.nav_host_fragment)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->
@@ -31,14 +36,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.homeFragment ){
+            if (destination.id == R.id.homeFragment) {
                 bottomNavigationView.visibility = View.VISIBLE
             }
-            if (destination.id == R.id.loginFragment ){
+            if (destination.id == R.id.loginFragment) {
                 bottomNavigationView.visibility = View.GONE
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.nav_host_fragment).navigateUp()
+                || super.onSupportNavigateUp()
     }
 }
