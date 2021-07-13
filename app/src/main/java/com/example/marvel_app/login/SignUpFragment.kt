@@ -52,13 +52,20 @@ class SignUpFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner, {
             when (it) {
                 is UIState.Success -> {
+                    binding.signUpProgressBar.visibility = View.GONE
+
                     Toast.makeText(
                         activity, R.string.sign_up_successful,
                         Toast.LENGTH_SHORT
                     ).show()
                     navController.navigateUp()
                 }
+                is UIState.InProgress -> {
+                    binding.signUpProgressBar.visibility = View.VISIBLE
+                }
                 else -> {
+                    binding.signUpProgressBar.visibility = View.GONE
+
                     Toast.makeText(
                         activity, R.string.sign_up_failure,
                         Toast.LENGTH_SHORT

@@ -1,6 +1,5 @@
 package com.example.marvel_app.login
 
-import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,8 +16,8 @@ class LoginViewModel : ViewModel() {
 
 
     fun signInWithEmail(email: String, password: String) {
+        _state.value = UIState.InProgress
         val result = firebaseRepository.signInWithEmail(email, password)
-
         result.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 _state.value = UIState.Success
@@ -29,6 +28,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun signUpWithEmail(email: String, password: String) {
+        _state.value = UIState.InProgress
         val result = firebaseRepository.signUpWithEmail(email, password)
         result.addOnCompleteListener { task ->
             if (task.isSuccessful) {

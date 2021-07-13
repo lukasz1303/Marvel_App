@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.marvel_app.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="@string/home_action_bar_title"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.marvel_app.detail.DetailFragment"
-        android:label="DetailFragment"
+        android:label="@string/detail_action_bar_title"
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="selectedComic"
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.marvel_app.login.LoginFragment"
-        android:label="fragment_login"
+        android:label="@string/login_action_bar_title"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -44,18 +44,18 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.marvel_app.login.SignUpFragment"
-        android:label="fragment_sing_up"
+        android:label="@string/sign_up_action_bar_title"
         tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.marvel_app.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        android:label="@string/settings_action_bar_title"
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
