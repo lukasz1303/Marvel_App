@@ -16,7 +16,7 @@
     <dimen name="rectangle_up_height">6dp</dimen>
     <dimen name="rectangle_up_margin_top">10dp</dimen>
     <dimen name="bottom_sheet_height">550dp</dimen>
-    <dimen name="bottom_sheet_peek_height">336dp</dimen>
+    <dimen name="bottom_sheet_peek_height">150dp</dimen>
     <dimen name="detail_view_margin">16dp</dimen>
     <dimen name="bottom_sheet_background_radius">15dp</dimen>
     <dimen name="find_out_more_button_text_size">16sp</dimen>
