@@ -58,7 +58,6 @@ class HomeFragment : Fragment() {
 
 
     private fun setupSearchView() {
-        val context = this.context
         binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 binding.searchingEmptyTextView.visibility = View.GONE

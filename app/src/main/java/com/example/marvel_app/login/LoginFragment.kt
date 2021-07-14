@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        navController = this.findNavController()
+        navController = findNavController()
         return binding.root
 
     }
@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             val email = binding.emailSignInEditText.editableText.toString()
             val password = binding.passwordSignInEditText.editableText.toString()
-            if (email.isEmpty() || password.isEmpty()){
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(
                     activity, R.string.provide_email_and_password,
                     Toast.LENGTH_SHORT
@@ -60,7 +60,7 @@ class LoginFragment : Fragment() {
             } else {
                 activity?.let { viewModel.signInWithEmail(email, password) }
             }
-            val imm = this.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
