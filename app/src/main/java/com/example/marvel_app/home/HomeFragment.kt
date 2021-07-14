@@ -1,7 +1,9 @@
 package com.example.marvel_app.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -56,6 +58,7 @@ class HomeFragment : Fragment() {
 
 
     private fun setupSearchView() {
+        val context = this.context
         binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 binding.searchingEmptyTextView.visibility = View.GONE
@@ -64,6 +67,8 @@ class HomeFragment : Fragment() {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.refreshComicsFromRepository(query)
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
                 return true
             }
         })
