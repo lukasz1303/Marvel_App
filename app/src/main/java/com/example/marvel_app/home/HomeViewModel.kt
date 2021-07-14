@@ -8,11 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.marvel_app.UIState
 import com.example.marvel_app.model.Comic
 import com.example.marvel_app.repository.ComicsRepository
+import com.example.marvel_app.repository.FirebaseRepository
 import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
     private val comicsRepository = ComicsRepository()
+    private val firebaseRepository = FirebaseRepository()
+
     private val _state = MutableLiveData<UIState>()
     val state: LiveData<UIState>
         get() = _state
@@ -20,6 +23,7 @@ class HomeViewModel : ViewModel() {
     fun changeState(state: UIState) {
         _state.value = state
     }
+
 
     private val _searchingTitle = MutableLiveData<String>()
     val searchingTitle: LiveData<String>
@@ -74,5 +78,12 @@ class HomeViewModel : ViewModel() {
     fun initFragmentForSearching() {
         comics.value = listOf()
         changeState(UIState.InSearching)
+    }
+
+    fun checkIfUserSignedIn(): Boolean {
+        firebaseRepository.user?.let {
+            return true
+        }
+        return false
     }
 }

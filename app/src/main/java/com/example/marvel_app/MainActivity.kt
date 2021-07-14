@@ -8,21 +8,50 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.marvel_app.databinding.ActivityMainBinding
 import com.example.marvel_app.home.HomeViewModel
+import com.example.marvel_app.login.LoginFragmentDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Marvel_App)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_fragment)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigationView.setOnItemSelectedListener { item ->
+        checkIfSignedIn()
+        setupBottomNavigationView()
+        setupActionBar()
+        setupNavController()
+    }
+
+    private fun setupNavController() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.homeFragment) {
+                binding.bottomNavigation.visibility = View.VISIBLE
+            }
+            if (destination.id == R.id.loginFragment) {
+                binding.bottomNavigation.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setupActionBar() {
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+
+    private fun setupBottomNavigationView() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home_bottom_navigation -> {
                     viewModel.setInSearching(false)
@@ -35,22 +64,17 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.homeFragment) {
-                bottomNavigationView.visibility = View.VISIBLE
-            }
-            if (destination.id == R.id.loginFragment) {
-                bottomNavigationView.visibility = View.GONE
-            }
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment).navigateUp()
                 || super.onSupportNavigateUp()
+    }
+
+    private fun checkIfSignedIn() {
+        if (viewModel.checkIfUserSignedIn()) {
+            navController
+                .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+        }
     }
 }
