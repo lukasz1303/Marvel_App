@@ -9,4 +9,9 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_margin">@dimen/home_screen_info_message_margin</item>
     </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    </style>
+    
 </resources>
