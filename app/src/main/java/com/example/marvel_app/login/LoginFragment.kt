@@ -36,9 +36,17 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkIfSignedIn()
         initSignUpButton()
         initSignInButton()
         initStateObserver()
+    }
+
+    private fun checkIfSignedIn() {
+        if (viewModel.checkIfUserSignedIn()) {
+            navController
+                .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+        }
     }
 
     private fun initSignUpButton() {

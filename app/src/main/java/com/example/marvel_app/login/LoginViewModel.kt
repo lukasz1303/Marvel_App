@@ -38,4 +38,11 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+
+    fun checkIfUserSignedIn(): Boolean {
+        firebaseRepository.user?.let {
+            return true
+        }
+        return false
+    }
 }
