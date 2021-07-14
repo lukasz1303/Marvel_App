@@ -20,11 +20,6 @@ class HomeViewModel : ViewModel() {
     val state: LiveData<UIState>
         get() = _state
 
-    fun changeState(state: UIState) {
-        _state.value = state
-    }
-
-
     private val _searchingTitle = MutableLiveData<String>()
     val searchingTitle: LiveData<String>
         get() = _searchingTitle
@@ -39,6 +34,9 @@ class HomeViewModel : ViewModel() {
     val inSearching: LiveData<Boolean> get() = mutableInSearching
 
     fun setInSearching(inSearching: Boolean) {
+        if(inSearching != mutableInSearching.value && inSearching){
+            comics.value = listOf()
+        }
         viewModelScope.coroutineContext.cancelChildren()
         mutableInSearching.value = inSearching
     }
@@ -76,8 +74,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun initFragmentForSearching() {
-        comics.value = listOf()
-        changeState(UIState.InSearching)
+        _state.value = UIState.InSearching
     }
 
     fun checkIfUserSignedIn(): Boolean {
