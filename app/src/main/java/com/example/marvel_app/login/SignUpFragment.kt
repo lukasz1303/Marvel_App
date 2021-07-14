@@ -46,7 +46,15 @@ class SignUpFragment : Fragment() {
         binding.signUpButton.setOnClickListener {
             val email = binding.emailSignUpEditText.editableText.toString()
             val password = binding.passwordSignUpEditText.editableText.toString()
-            viewModel.signUpWithEmail(email, password)
+            if (email.isEmpty() || password.isEmpty()){
+                Toast.makeText(
+                    activity, R.string.provide_email_and_password,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else {
+                viewModel.signUpWithEmail(email, password)
+            }
             val imm = this.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
         }
