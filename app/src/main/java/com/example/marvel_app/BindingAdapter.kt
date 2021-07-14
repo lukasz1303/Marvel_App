@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.marvel_app.model.Comic
 
@@ -43,7 +44,7 @@ fun bindImage(
 ) {
     imageUrl?.let {
         val validUrl = when (imageResolution) {
-            0 -> "${imageUrl}/portrait_medium.$imageExtension"
+            0 -> "${imageUrl}/portrait_uncanny.$imageExtension"
             else -> "${imageUrl}.$imageExtension"
         }
         val imgUri = validUrl.toUri().buildUpon().scheme("http").build()

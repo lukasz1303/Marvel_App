@@ -25,7 +25,7 @@ class SettingsFragment : Fragment() {
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        navController = this.findNavController()
+        navController = findNavController()
         return binding.root
     }
 

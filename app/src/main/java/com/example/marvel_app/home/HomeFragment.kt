@@ -1,7 +1,9 @@
 package com.example.marvel_app.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -64,6 +66,8 @@ class HomeFragment : Fragment() {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.refreshComicsFromRepository(query)
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
                 return true
             }
         })
@@ -71,13 +75,14 @@ class HomeFragment : Fragment() {
 
     private fun setupBottomNavigationStateObserver() {
         viewModel.inSearching.observe(viewLifecycleOwner, { searching ->
-            (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             if (searching) {
                 viewModel.initFragmentForSearching()
+                (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
                 viewModel.refreshComicsFromRepository(null)
                 binding.searchViewHome.visibility = View.GONE
+                binding.searchViewHome.setQuery("", false)
             }
         })
     }
@@ -117,6 +122,9 @@ class HomeFragment : Fragment() {
                 }
                 is UIState.InSearching -> {
                     binding.searchViewHome.visibility = View.VISIBLE
+                    binding.homeErrorTextView.visibility = View.GONE
+                    binding.homeProgressBar.visibility = View.GONE
+
                     if (viewModel.searchingTitle.value == null) {
                         binding.searchingEmptyTextView.visibility = View.VISIBLE
                     }

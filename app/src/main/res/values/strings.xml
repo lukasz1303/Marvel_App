@@ -30,4 +30,5 @@
     <string name="home_action_bar_title">Marvel Comics</string>
     <string name="detail_action_bar_title">Detail</string>
     <string name="settings_action_bar_title">Settings</string>
+    <string name="provide_email_and_password">You have to provide email and password</string>
 </resources>

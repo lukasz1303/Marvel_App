@@ -1,11 +1,13 @@
 package com.example.marvel_app.login
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -26,7 +28,7 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        navController = this.findNavController()
+        navController = findNavController()
         return binding.root
 
     }
@@ -50,7 +52,16 @@ class LoginFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             val email = binding.emailSignInEditText.editableText.toString()
             val password = binding.passwordSignInEditText.editableText.toString()
-            activity?.let { viewModel.signInWithEmail(email, password) }
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(
+                    activity, R.string.provide_email_and_password,
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                activity?.let { viewModel.signInWithEmail(email, password) }
+            }
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
 
