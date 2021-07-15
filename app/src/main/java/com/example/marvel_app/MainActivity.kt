@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkIfSignedIn(bundle: Bundle?) {
-        if (viewModel.checkIfUserSignedIn()) {
+        if (viewModel.checkIfUserSignedIn() && navController.currentDestination?.id == R.id.loginFragment) {
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.loginFragment, true)
                 .build()
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_loginFragment_to_homeFragment,
                 bundle,
                 navOptions
-            );
+            )
         }
     }
 }
