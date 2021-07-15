@@ -7,8 +7,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import javax.inject.Inject
 
-class FirebaseRepository {
+class FirebaseRepository @Inject constructor(){
     private var auth: FirebaseAuth = Firebase.auth
 
     private var _user: FirebaseUser? = null

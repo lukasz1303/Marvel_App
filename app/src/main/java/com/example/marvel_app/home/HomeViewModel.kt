@@ -16,9 +16,7 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val comicsRepository: ComicsRepository) : ViewModel() {
-
-    private val firebaseRepository = FirebaseRepository()
+class HomeViewModel @Inject constructor(private val comicsRepository: ComicsRepository, private val firebaseRepository: FirebaseRepository) : ViewModel() {
 
     private val _state = MutableLiveData<UIState>()
     val state: LiveData<UIState>
