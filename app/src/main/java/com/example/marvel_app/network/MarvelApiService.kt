@@ -3,6 +3,10 @@ package com.example.marvel_app.network
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -34,6 +38,9 @@ interface MarvelApiService {
     ): Response<NetworkResponse>
 }
 
-object MarvelApi {
-    val retrofitServiceMarvel: MarvelApiService = retrofit.create(MarvelApiService::class.java)
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+object MarvelModule {
+    @Provides
+    fun provideMarvelService(): MarvelApiService = retrofit.create(MarvelApiService::class.java)
 }

@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.marvel_app.UIState
 import com.example.marvel_app.repository.FirebaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
-
-    private val firebaseRepository = FirebaseRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val firebaseRepository: FirebaseRepository) :
+    ViewModel() {
 
     private val _state = MutableLiveData<UIState>()
     val state: LiveData<UIState>
