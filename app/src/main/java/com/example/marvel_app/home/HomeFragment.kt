@@ -15,7 +15,9 @@ import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by activityViewModels()

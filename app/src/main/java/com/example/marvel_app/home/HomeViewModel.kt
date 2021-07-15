@@ -10,11 +10,14 @@ import com.example.marvel_app.model.Comic
 import com.example.marvel_app.network.MarvelModule
 import com.example.marvel_app.repository.ComicsRepository
 import com.example.marvel_app.repository.FirebaseRepository
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val comicsRepository: ComicsRepository) : ViewModel() {
 
-    private var comicsRepository = ComicsRepository(MarvelModule.provideMarvelService())
     private val firebaseRepository = FirebaseRepository()
 
     private val _state = MutableLiveData<UIState>()
