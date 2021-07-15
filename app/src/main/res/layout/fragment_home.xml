@@ -52,6 +52,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            app:drawableTopCompat="@drawable/book_open_icon"
+            android:drawablePadding="@dimen/no_comic_image_padding"
             tools:text="Theres no comic ..." />
 
         <TextView
