@@ -34,7 +34,7 @@ class HomeViewModel : ViewModel() {
     val inSearching: LiveData<Boolean> get() = mutableInSearching
 
     fun setInSearching(inSearching: Boolean) {
-        if(inSearching != mutableInSearching.value && inSearching){
+        if (inSearching != mutableInSearching.value && inSearching) {
             comics.value = listOf()
         }
         viewModelScope.coroutineContext.cancelChildren()
