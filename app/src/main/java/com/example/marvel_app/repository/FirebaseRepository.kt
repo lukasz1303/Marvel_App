@@ -31,5 +31,6 @@ class FirebaseRepository {
 
     fun signOut() {
         auth.signOut()
+        _user = null
     }
 }

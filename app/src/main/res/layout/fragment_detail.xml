@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{viewModel.selectedComic.title}"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_color"
                         android:textSize="@dimen/comic_title_text_size"
                         tools:text="Star Wars #7" />
 
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/comic_text_margin"
                         android:text="@{viewModel.selectedComic.description}"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_color"
                         android:textSize="@dimen/comic_description_detail_text_size"
                         android:visibility="@{viewModel.selectedComic.description != null ? View.VISIBLE : View.GONE}"
                         tools:text="Some description" />

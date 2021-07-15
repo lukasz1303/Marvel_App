@@ -31,7 +31,7 @@ class DetailFragment : Fragment() {
         BottomSheetBehavior.from(binding.bottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
 
         setupFindOutMoreButtonListener(binding)
-        
+
         return binding.root
     }
 

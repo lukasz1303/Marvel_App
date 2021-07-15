@@ -16,7 +16,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/background_color">
 
             <TextView
                 android:id="@+id/login_welcome_textView"
@@ -24,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/login_screen_margin"
                 android:text="@string/welcome_in_marvel_app"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/login_screen_welcome_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/email"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_color"
                     tools:text="Email: " />
 
                 <EditText
@@ -72,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/password"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_color"
                     tools:text="Password: " />
 
                 <EditText
@@ -89,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/login_screen_button_margin"
                 android:text="@string/sign_in"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/password_linear_layout" />
@@ -116,6 +118,7 @@
                 android:layout_marginEnd="@dimen/login_screen_button_margin"
                 android:layout_marginBottom="@dimen/login_screen_button_margin"
                 android:text="@string/sing_up"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/not_registered_textView" />
