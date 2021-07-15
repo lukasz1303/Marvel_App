@@ -7,16 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvel_app.UIState
 import com.example.marvel_app.model.Comic
-import com.example.marvel_app.network.MarvelModule
 import com.example.marvel_app.repository.ComicsRepository
 import com.example.marvel_app.repository.FirebaseRepository
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val comicsRepository: ComicsRepository, private val firebaseRepository: FirebaseRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val comicsRepository: ComicsRepository,
+    private val firebaseRepository: FirebaseRepository
+) : ViewModel() {
 
     private val _state = MutableLiveData<UIState>()
     val state: LiveData<UIState>

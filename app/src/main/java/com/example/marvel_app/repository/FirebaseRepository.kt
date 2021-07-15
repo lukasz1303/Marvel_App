@@ -1,6 +1,5 @@
 package com.example.marvel_app.repository
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -9,7 +8,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
-class FirebaseRepository @Inject constructor(){
+class FirebaseRepository @Inject constructor() {
     private var auth: FirebaseAuth = Firebase.auth
 
     private var _user: FirebaseUser? = null
