@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.marvel_app.databinding.ActivityMainBinding
 import com.example.marvel_app.home.HomeViewModel
-import com.example.marvel_app.login.LoginFragmentDirections
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
 
-        checkIfSignedIn()
+        checkIfSignedIn(savedInstanceState)
         setupBottomNavigationView()
         setupActionBar()
         setupNavController()
@@ -71,10 +70,16 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun checkIfSignedIn() {
+    private fun checkIfSignedIn(bundle: Bundle?) {
         if (viewModel.checkIfUserSignedIn()) {
-            navController
-                .navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.loginFragment, true)
+                .build()
+            findNavController(R.id.nav_host_fragment).navigate(
+                R.id.action_loginFragment_to_homeFragment,
+                bundle,
+                navOptions
+            );
         }
     }
 }
