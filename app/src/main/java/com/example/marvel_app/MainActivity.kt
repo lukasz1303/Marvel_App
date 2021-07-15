@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
 
-        checkIfSignedIn(savedInstanceState)
+        checkIfSignedIn()
         setupBottomNavigationView()
         setupActionBar()
         setupNavController()
@@ -70,15 +70,10 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun checkIfSignedIn(bundle: Bundle?) {
+    private fun checkIfSignedIn() {
         if (viewModel.checkIfUserSignedIn() && navController.currentDestination?.id == R.id.loginFragment) {
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.loginFragment, true)
-                .build()
             findNavController(R.id.nav_host_fragment).navigate(
-                R.id.action_loginFragment_to_homeFragment,
-                bundle,
-                navOptions
+                R.id.action_loginFragment_to_homeFragment
             )
         }
     }
