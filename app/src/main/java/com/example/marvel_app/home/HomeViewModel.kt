@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvel_app.UIState
 import com.example.marvel_app.model.Comic
+import com.example.marvel_app.network.MarvelModule
 import com.example.marvel_app.repository.ComicsRepository
 import com.example.marvel_app.repository.FirebaseRepository
 import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
-    private val comicsRepository = ComicsRepository()
+    private var comicsRepository = ComicsRepository(MarvelModule.provideMarvelService())
     private val firebaseRepository = FirebaseRepository()
 
     private val _state = MutableLiveData<UIState>()
