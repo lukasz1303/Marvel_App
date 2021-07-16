@@ -57,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:inputType="textEmailAddress"
-                    android:digits=" aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789!#$%&amp;'*+-/=?^_`{|}~@."
                     android:maxLines="1" />
 
             </LinearLayout>
