@@ -17,23 +17,38 @@
         android:layout_height="match_parent"
         tools:context=".home.HomeFragment">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view_home"
+        <LinearLayout
+            android:id="@+id/search_view_home_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:background="@drawable/search_view_background"
+            android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_view_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@color/transparent"
+                app:queryHint="Search for a comic book"
+                app:searchIcon="@drawable/search_icon" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comics_list_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
             app:comics="@{viewModel.comics}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_view_home" />
+            app:layout_constraintTop_toBottomOf="@id/search_view_home_linear_layout"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/home_error_textView"
@@ -48,6 +63,9 @@
         <TextView
             android:id="@+id/searching_error_textView"
             style="@style/home_screen_message_style"
+            android:drawablePadding="@dimen/no_comic_image_padding"
+            android:visibility="gone"
+            app:drawableTopCompat="@drawable/book_open_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +76,8 @@
             android:id="@+id/searching_empty_textView"
             style="@style/home_screen_message_style"
             android:text="@string/empty_searching_message"
+            android:drawablePadding="@dimen/no_comic_image_padding"
+            app:drawableTopCompat="@drawable/book_open_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

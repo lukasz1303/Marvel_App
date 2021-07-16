@@ -2,6 +2,8 @@ package com.example.marvel_app.login
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +42,11 @@ class LoginFragment : Fragment() {
         initSignUpButton()
         initSignInButton()
         initStateObserver()
+        setEmailEmojiFilter()
+    }
+
+    private fun setEmailEmojiFilter() {
+        binding.emailSignInEditText.filters = arrayOf(viewModel.emojiFilter)
     }
 
     private fun initSignUpButton() {

@@ -23,6 +23,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var navController: NavController
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var inputMethodManager: InputMethodManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,8 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         navController = this.findNavController()
+        inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -44,6 +47,11 @@ class HomeFragment : Fragment() {
         setupNavigationToDetailScreen()
         setupBottomNavigationStateObserver()
         setupSearchView()
+
+        binding.searchViewHomeLinearLayout.setOnClickListener {
+            binding.searchViewHome.requestFocus()
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -68,9 +76,7 @@ class HomeFragment : Fragment() {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.refreshComicsFromRepository(query)
-                val imm =
-                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view?.windowToken, 0)
+                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
                 return true
             }
         })
