@@ -16,12 +16,12 @@
     <dimen name="rectangle_up_height">6dp</dimen>
     <dimen name="rectangle_up_margin_top">10dp</dimen>
     <dimen name="bottom_sheet_height">550dp</dimen>
-    <dimen name="bottom_sheet_peek_height">150dp</dimen>
+    <dimen name="bottom_sheet_peek_height">160dp</dimen>
     <dimen name="detail_view_margin">16dp</dimen>
     <dimen name="bottom_sheet_background_radius">15dp</dimen>
     <dimen name="find_out_more_button_text_size">16sp</dimen>
     <dimen name="find_out_more_button_bottom_margin">16dp</dimen>
-    <dimen name="detail_scroll_view_bottom_margin">97dp</dimen>
+    <dimen name="detail_scroll_view_bottom_margin">72dp</dimen>
     <dimen name="home_screen_info_message_margin">16dp</dimen>
     <dimen name="login_screen_margin">16dp</dimen>
     <dimen name="login_screen_welcome_text_size">20sp</dimen>
@@ -30,4 +30,5 @@
     <dimen name="login_not_have_account_msg_top_margin">48dp</dimen>
     <dimen name="no_comic_image_padding">24dp</dimen>
     <dimen name="list_item_card_elevation">16dp</dimen>
+    <dimen name="find_out_more_button_padding_top">24dp</dimen>
 </resources>

@@ -21,6 +21,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -103,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/comic_text_margin"
+                        android:paddingBottom="@dimen/comic_text_margin"
                         android:text="@{viewModel.selectedComic.description}"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/comic_description_detail_text_size"
@@ -117,29 +119,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/find_out_more_button"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/detail_view_margin"
-                android:layout_marginTop="@dimen/detail_view_margin"
-                android:layout_marginEnd="@dimen/detail_view_margin"
-                android:layout_marginBottom="@dimen/find_out_more_button_bottom_margin"
-                android:background="@drawable/button_background"
-                android:gravity="center"
-                android:padding="@dimen/detail_view_margin"
-                android:text="@string/find_out_more"
-                android:textColor="@color/white"
-                android:textSize="@dimen/find_out_more_button_text_size"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
+                android:background="@drawable/find_out_more_button_background"
+                android:paddingTop="@dimen/find_out_more_button_padding_top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Find out more" />
+                app:layout_constraintStart_toStartOf="parent">
 
+                <TextView
+                    android:id="@+id/find_out_more_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_view_margin"
+                    android:layout_marginTop="@dimen/detail_view_margin"
+                    android:layout_marginEnd="@dimen/detail_view_margin"
+                    android:layout_marginBottom="@dimen/find_out_more_button_bottom_margin"
+                    android:background="@drawable/button_background"
+                    android:gravity="center"
+                    android:padding="@dimen/detail_view_margin"
+                    android:text="@string/find_out_more"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/find_out_more_button_text_size"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Find out more" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
