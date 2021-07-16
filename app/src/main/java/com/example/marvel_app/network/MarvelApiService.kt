@@ -34,7 +34,7 @@ interface MarvelApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
         @Query("orderBy") orderBy: String,
-        @Query("title") title: String?
+        @Query("titleStartsWith") title: String?
     ): Response<NetworkResponse>
 }
 
