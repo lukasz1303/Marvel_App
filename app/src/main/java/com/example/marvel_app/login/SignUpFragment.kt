@@ -2,12 +2,13 @@ package com.example.marvel_app.login
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
@@ -40,6 +42,11 @@ class SignUpFragment : Fragment() {
 
         initSignUpButton()
         initStateObserver()
+        setEmailEmojiFilter()
+    }
+
+    private fun setEmailEmojiFilter() {
+        binding.emailSignUpEditText.filters = arrayOf(viewModel.emojiFilter)
     }
 
     private fun initSignUpButton() {
