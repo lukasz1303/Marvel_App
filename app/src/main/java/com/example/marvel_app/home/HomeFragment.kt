@@ -110,6 +110,7 @@ class HomeFragment : Fragment() {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
                 binding.searchViewConstraintLayout.visibility = View.GONE
                 binding.searchEditText.text = null
+                binding.searchViewCancel.visibility = View.GONE
             }
         })
     }

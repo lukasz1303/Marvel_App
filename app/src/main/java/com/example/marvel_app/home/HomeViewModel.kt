@@ -37,10 +37,11 @@ class HomeViewModel @Inject constructor(
     val inSearching: LiveData<Boolean> get() = mutableInSearching
 
     fun setInSearching(inSearching: Boolean) {
-        viewModelScope.coroutineContext.cancelChildren()
         if (inSearching != mutableInSearching.value && inSearching) {
+            viewModelScope.coroutineContext.cancelChildren()
             comics.value = listOf()
         } else if (mutableInSearching.value == true && !inSearching) {
+            viewModelScope.coroutineContext.cancelChildren()
             refreshComicsFromRepository(null)
         }
         mutableInSearching.value = inSearching

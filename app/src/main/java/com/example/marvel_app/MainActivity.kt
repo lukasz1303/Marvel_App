@@ -85,4 +85,13 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id == R.id.homeFragment && viewModel.inSearching.value == true) {
+            viewModel.setInSearching(false)
+            binding.bottomNavigation.selectedItemId = R.id.home_bottom_navigation
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
