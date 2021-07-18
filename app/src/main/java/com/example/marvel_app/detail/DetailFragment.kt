@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.marvel_app.R
 import com.example.marvel_app.databinding.FragmentDetailBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
