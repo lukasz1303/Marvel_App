@@ -2,11 +2,12 @@ package com.example.marvel_app.home
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -47,11 +49,6 @@ class HomeFragment : Fragment() {
         setupNavigationToDetailScreen()
         setupBottomNavigationStateObserver()
         setupSearchView()
-
-        binding.searchViewHomeLinearLayout.setOnClickListener {
-            binding.searchViewHome.requestFocus()
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -68,18 +65,40 @@ class HomeFragment : Fragment() {
 
 
     private fun setupSearchView() {
-        binding.searchViewHome.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
+
+        binding.searchViewLinearLayout.setOnClickListener {
+            binding.searchEditText.requestFocus()
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+        }
+
+        binding.searchEditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                viewModel.refreshComicsFromRepository(binding.searchEditText.editableText.toString())
+                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+                return@OnKeyListener true
+            }
+            false
+        })
+
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.searchingEmptyTextView.visibility = View.GONE
-                return false
+                binding.searchViewCancel.visibility = View.VISIBLE
             }
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.refreshComicsFromRepository(query)
-                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
-                return true
-            }
+            override fun afterTextChanged(s: Editable?) {}
+
         })
+
+        binding.searchViewCancel.setOnClickListener {
+            binding.searchEditText.text = null
+            binding.searchingEmptyTextView.visibility = View.VISIBLE
+            viewModel.clearComicList()
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+            binding.searchViewCancel.visibility = View.GONE
+        }
     }
 
     private fun setupBottomNavigationStateObserver() {
@@ -89,8 +108,8 @@ class HomeFragment : Fragment() {
                 (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
-                binding.searchViewHome.visibility = View.GONE
-                binding.searchViewHome.setQuery("", false)
+                binding.searchViewConstraintLayout.visibility = View.GONE
+                binding.searchEditText.text = null
             }
         })
     }
@@ -129,7 +148,7 @@ class HomeFragment : Fragment() {
                     binding.homeProgressBar.visibility = View.GONE
                 }
                 is UIState.InSearching -> {
-                    binding.searchViewHome.visibility = View.VISIBLE
+                    binding.searchViewConstraintLayout.visibility = View.VISIBLE
                     binding.homeErrorTextView.visibility = View.GONE
                     binding.homeProgressBar.visibility = View.GONE
 

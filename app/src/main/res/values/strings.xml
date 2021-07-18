@@ -31,4 +31,7 @@
     <string name="detail_action_bar_title">Detail</string>
     <string name="settings_action_bar_title">Settings</string>
     <string name="provide_email_and_password">You have to provide email and password</string>
+    <string name="cancel">Cancel</string>
+    <string name="search_for_a_comic_book">Search for a comic book</string>
+    <string name="search_icon">Search icon</string>
 </resources>

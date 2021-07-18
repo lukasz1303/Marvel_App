@@ -88,4 +88,8 @@ class HomeViewModel @Inject constructor(
         }
         return false
     }
+
+    fun clearComicList() {
+        comics.value = listOf()
+    }
 }
