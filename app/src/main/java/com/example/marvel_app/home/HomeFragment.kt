@@ -89,7 +89,6 @@ class HomeFragment : Fragment() {
                 (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
-                viewModel.refreshComicsFromRepository(null)
                 binding.searchViewHome.visibility = View.GONE
                 binding.searchViewHome.setQuery("", false)
             }
