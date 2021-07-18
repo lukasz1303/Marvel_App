@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.marvel_app.databinding.ActivityMainBinding
+import com.example.marvel_app.detail.DetailFragmentDirections
 import com.example.marvel_app.home.HomeViewModel
+import com.example.marvel_app.settings.SettingsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,13 +54,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigationView() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
+
+            when (navController.currentDestination?.id) {
+                R.id.detailFragment -> navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
+                R.id.settingsFragment -> navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToHomeFragment())
+            }
+
             when (item.itemId) {
                 R.id.home_bottom_navigation -> {
-                    viewModel.setInSearching(false)
+                        viewModel.setInSearching(false)
                     true
                 }
                 R.id.search_bottom_navigation -> {
-                    viewModel.setInSearching(true)
+                        viewModel.setInSearching(true)
                     true
                 }
                 else -> false
