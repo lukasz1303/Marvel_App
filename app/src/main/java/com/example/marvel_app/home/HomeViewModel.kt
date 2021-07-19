@@ -38,9 +38,12 @@ class HomeViewModel @Inject constructor(
 
     fun setInSearching(inSearching: Boolean) {
         if (inSearching != mutableInSearching.value && inSearching) {
+            viewModelScope.coroutineContext.cancelChildren()
             comics.value = listOf()
+        } else if (mutableInSearching.value == true && !inSearching) {
+            viewModelScope.coroutineContext.cancelChildren()
+            refreshComicsFromRepository(null)
         }
-        viewModelScope.coroutineContext.cancelChildren()
         mutableInSearching.value = inSearching
     }
 
@@ -85,5 +88,9 @@ class HomeViewModel @Inject constructor(
             return true
         }
         return false
+    }
+
+    fun clearComicList() {
+        comics.value = listOf()
     }
 }

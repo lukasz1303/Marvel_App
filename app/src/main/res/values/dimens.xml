@@ -29,6 +29,10 @@
     <dimen name="settings_margin">16dp</dimen>
     <dimen name="login_not_have_account_msg_top_margin">48dp</dimen>
     <dimen name="no_comic_image_padding">24dp</dimen>
-    <dimen name="list_item_card_elevation">16dp</dimen>
+    <dimen name="list_item_card_elevation">8dp</dimen>
     <dimen name="find_out_more_button_padding_top">24dp</dimen>
+    <dimen name="cancel_button_text_size">16sp</dimen>
+    <dimen name="search_view_margin">16dp</dimen>
+    <dimen name="search_icon_width">20dp</dimen>
+    <dimen name="search_view_height">40dp</dimen>
 </resources>

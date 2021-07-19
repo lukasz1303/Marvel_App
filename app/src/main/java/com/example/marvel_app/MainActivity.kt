@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigationView() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
-
             when (navController.currentDestination?.id) {
                 R.id.detailFragment -> navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
                 R.id.settingsFragment -> navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToHomeFragment())
@@ -62,11 +61,11 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.home_bottom_navigation -> {
-                        viewModel.setInSearching(false)
+                    viewModel.setInSearching(false)
                     true
                 }
                 R.id.search_bottom_navigation -> {
-                        viewModel.setInSearching(true)
+                    viewModel.setInSearching(true)
                     true
                 }
                 else -> false
@@ -84,6 +83,15 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.nav_host_fragment).navigate(
                 R.id.action_loginFragment_to_homeFragment
             )
+        }
+    }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id == R.id.homeFragment && viewModel.inSearching.value == true) {
+            viewModel.setInSearching(false)
+            binding.bottomNavigation.selectedItemId = R.id.home_bottom_navigation
+        } else {
+            super.onBackPressed()
         }
     }
 }
