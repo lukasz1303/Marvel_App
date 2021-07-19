@@ -98,6 +98,7 @@ class HomeFragment : Fragment() {
             viewModel.clearComicList()
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
             binding.searchViewCancel.visibility = View.GONE
+            binding.searchingErrorTextView.visibility = View.GONE
         }
     }
 
