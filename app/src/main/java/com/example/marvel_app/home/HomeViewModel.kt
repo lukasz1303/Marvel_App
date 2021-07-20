@@ -5,12 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.marvel_app.UIState
 import com.example.marvel_app.model.Comic
 import com.example.marvel_app.repository.ComicsRepository
 import com.example.marvel_app.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +29,8 @@ class HomeViewModel @Inject constructor(
     private val _searchingTitle = MutableLiveData<String>()
     val searchingTitle: LiveData<String>
         get() = _searchingTitle
+
+    private var currentSearchResult: Flow<PagingData<Comic>>? = null
 
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -45,6 +50,17 @@ class HomeViewModel @Inject constructor(
             refreshComicsFromRepository(null)
         }
         mutableInSearching.value = inSearching
+    }
+
+    fun refreshComicsFromRepositoryFlow(title: String?) : Flow<PagingData<Comic>>{
+        val lastResult = currentSearchResult
+        if (title == searchingTitle.value && lastResult != null){
+            return lastResult
+        }
+        _searchingTitle.value = title
+        val newResult: Flow<PagingData<Comic>> = comicsRepository.refreshComicsStream(title).cachedIn(viewModelScope)
+        currentSearchResult = newResult
+        return newResult
     }
 
     private val _navigateToSelectedComic = MutableLiveData<Comic>()
