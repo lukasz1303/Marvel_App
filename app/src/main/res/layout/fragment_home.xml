@@ -43,8 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/search_view_margin"
                     android:layout_marginEnd="@dimen/search_view_margin"
-                    android:src="@drawable/search_icon"
-                    android:contentDescription="@string/search_icon" />
+                    android:contentDescription="@string/search_icon"
+                    android:src="@drawable/search_icon" />
 
                 <EditText
                     android:id="@+id/search_edit_text"
@@ -52,11 +52,11 @@
                     android:layout_height="@dimen/search_view_height"
                     android:background="@color/transparent"
                     android:hint="@string/search_for_a_comic_book"
-                    android:singleLine="true"
-                    android:textColor="@color/search_view_text_color"
-                    android:importantForAutofill="no"
                     android:imeOptions="actionSearch"
-                    android:inputType="text" />
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/search_view_text_color" />
             </LinearLayout>
 
             <TextView
@@ -74,11 +74,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--app:comics="@{viewModel.currentSearchResult}"-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comics_list_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:comics="@{viewModel.comics}"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -17,7 +17,7 @@ import com.example.marvel_app.model.Comic
 @BindingAdapter("comics")
 fun bindRecyclerView(recyclerView: RecyclerView, comics: List<Comic>?) {
     val adapter = recyclerView.adapter as ComicsAdapter
-    adapter.submitList(comics)
+    //adapter.submitList(comics)
 }
 
 @BindingAdapter("authors")

@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
     val searchingTitle: LiveData<String>
         get() = _searchingTitle
 
-    private var currentSearchResult: Flow<PagingData<Comic>>? = null
+    var currentSearchResult: Flow<PagingData<Comic>>? = null
 
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -71,6 +71,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         refreshComicsFromRepository(null)
+        refreshComicsFromRepositoryFlow(null)
     }
 
     fun refreshComicsFromRepository(title: String?) {

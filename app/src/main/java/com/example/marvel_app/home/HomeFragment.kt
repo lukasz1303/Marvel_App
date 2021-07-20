@@ -9,14 +9,22 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -128,12 +136,33 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapter() {
         val manager = GridLayoutManager(activity, 1)
+
+        var searchJob: Job? = null
+
         binding.comicsListHome.apply {
             layoutManager = manager
             adapter = ComicsAdapter {
                 viewModel.displayComicDetail(it)
             }
         }
+        val adapter = binding.comicsListHome.adapter as ComicsAdapter
+
+
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.refreshComicsFromRepositoryFlow(null).collectLatest {
+                adapter.submitData(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+        }
+
     }
 
     private fun initStateObserver() {
