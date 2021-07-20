@@ -14,6 +14,7 @@ import com.example.marvel_app.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEmpty
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +31,7 @@ class HomeViewModel @Inject constructor(
     val searchingTitle: LiveData<String>
         get() = _searchingTitle
 
-    var currentSearchResult: Flow<PagingData<Comic>>? = null
+    var comics: Flow<PagingData<Comic>>? = null
 
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -44,22 +45,33 @@ class HomeViewModel @Inject constructor(
     fun setInSearching(inSearching: Boolean) {
         if (inSearching != mutableInSearching.value && inSearching) {
             viewModelScope.coroutineContext.cancelChildren()
-            comics.value = listOf()
+            comics = null
         } else if (mutableInSearching.value == true && !inSearching) {
             viewModelScope.coroutineContext.cancelChildren()
-            refreshComicsFromRepository(null)
+            refreshComicsFromRepositoryFlow(null)
         }
         mutableInSearching.value = inSearching
     }
 
     fun refreshComicsFromRepositoryFlow(title: String?) : Flow<PagingData<Comic>>{
-        val lastResult = currentSearchResult
+        Log.e("refreshing", "")
+        _state.value = UIState.InProgress
+
+        val lastResult = comics
         if (title == searchingTitle.value && lastResult != null){
+            _state.value = UIState.Success
             return lastResult
+
         }
         _searchingTitle.value = title
         val newResult: Flow<PagingData<Comic>> = comicsRepository.refreshComicsStream(title).cachedIn(viewModelScope)
-        currentSearchResult = newResult
+        comics = newResult
+        comics?.let {
+            comics!!.onEmpty {
+                _state.value = UIState.SearchingError
+            }
+        }
+        _state.value = UIState.Success
         return newResult
     }
 
@@ -67,25 +79,10 @@ class HomeViewModel @Inject constructor(
     val navigateToSelectedComic: LiveData<Comic>
         get() = _navigateToSelectedComic
 
-    val comics = MutableLiveData<List<Comic>>()
+    //val comics = MutableLiveData<List<Comic>>()
 
     init {
-        refreshComicsFromRepository(null)
         refreshComicsFromRepositoryFlow(null)
-    }
-
-    fun refreshComicsFromRepository(title: String?) {
-        comics.value = listOf()
-        _state.value = UIState.InProgress
-        _searchingTitle.value = title
-        viewModelScope.launch(exceptionHandler) {
-            comics.value = comicsRepository.refreshComics(title)
-            if (comics.value?.isEmpty() == true && title != null) {
-                _state.value = UIState.SearchingError
-            } else {
-                _state.value = UIState.Success
-            }
-        }
     }
 
     fun displayComicDetail(comic: Comic) {
@@ -108,6 +105,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun clearComicList() {
-        comics.value = listOf()
+        comics = null
+    }
+
+    fun changeState(state: UIState){
+        _state.value = state
     }
 }

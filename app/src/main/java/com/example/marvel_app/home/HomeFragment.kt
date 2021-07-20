@@ -4,23 +4,26 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
@@ -34,6 +37,8 @@ class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentHomeBinding
     private lateinit var inputMethodManager: InputMethodManager
+    private lateinit var adapter: ComicsAdapter
+    private var loadComicsJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +86,7 @@ class HomeFragment : Fragment() {
 
         binding.searchEditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                viewModel.refreshComicsFromRepository(binding.searchEditText.editableText.toString())
+                loadDataAndPassToAdapter(binding.searchEditText.editableText.toString())
                 inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
                 return@OnKeyListener true
             }
@@ -114,9 +119,12 @@ class HomeFragment : Fragment() {
         viewModel.inSearching.observe(viewLifecycleOwner, { searching ->
             if (searching) {
                 viewModel.initFragmentForSearching()
+                clearDataOnAdapter()
                 (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
+                clearDataOnAdapter()
+                loadDataAndPassToAdapter()
                 binding.searchViewConstraintLayout.visibility = View.GONE
                 binding.searchEditText.text = null
                 binding.searchViewCancel.visibility = View.GONE
@@ -137,36 +145,32 @@ class HomeFragment : Fragment() {
     private fun setupAdapter() {
         val manager = GridLayoutManager(activity, 1)
 
-        var searchJob: Job? = null
-
         binding.comicsListHome.apply {
             layoutManager = manager
             adapter = ComicsAdapter {
                 viewModel.displayComicDetail(it)
             }
         }
-        val adapter = binding.comicsListHome.adapter as ComicsAdapter
+        adapter = binding.comicsListHome.adapter as ComicsAdapter
+        viewModel.changeState(UIState.InProgress)
+        Log.e("HomeFragment", viewModel.state.value.toString())
+        loadDataAndPassToAdapter()
 
-
-        searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            viewModel.refreshComicsFromRepositoryFlow(null).collectLatest {
-                adapter.submitData(it)
-            }
-        }
-
-        lifecycleScope.launch {
+        viewModel.viewModelScope.launch {
             adapter.loadStateFlow
                 // Only emit when REFRESH LoadState changes.
                 .distinctUntilChangedBy { it.refresh }
                 // Only react to cases where REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.comicsListHome.scrollToPosition(0) }
         }
 
     }
 
     private fun initStateObserver() {
         viewModel.state.observe(viewLifecycleOwner, {
+            Log.e("current State", viewModel.state.value.toString())
+
             when (it) {
                 is UIState.InProgress -> {
                     binding.homeProgressBar.visibility = View.VISIBLE
@@ -199,5 +203,26 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun loadDataAndPassToAdapter(title: String? = null) {
+        viewModel.changeState(UIState.InProgress)
+        loadComicsJob?.cancel()
+        loadComicsJob = viewModel.viewModelScope.launch {
+            viewModel.refreshComicsFromRepositoryFlow(title).collectLatest {
+                adapter.submitData(it)
+            }
+        }
+        viewModel.changeState(UIState.Success)
+
+    }
+
+    private fun clearDataOnAdapter() {
+        loadComicsJob?.cancel()
+        viewModel.changeState(UIState.InProgress)
+
+        loadComicsJob = viewModel.viewModelScope.launch {
+            adapter.submitData(PagingData.empty())
+        }
     }
 }
