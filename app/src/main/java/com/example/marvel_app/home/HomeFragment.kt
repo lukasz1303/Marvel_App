@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -89,8 +88,6 @@ class HomeFragment : Fragment() {
 
         binding.searchEditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                Log.e("load", binding.searchEditText.editableText.toString())
-
                 loadDataAndPassToAdapter(binding.searchEditText.editableText.toString())
                 viewModel.setSearchingTitle(binding.searchEditText.editableText.toString())
                 inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
@@ -128,17 +125,12 @@ class HomeFragment : Fragment() {
                 viewModel.initFragmentForSearching()
                 clearDataOnAdapter()
                 if(viewModel.searchingTitle.value?.isNotEmpty() == true){
-                    Log.e("load", viewModel.searchingTitle.value.toString())
-
                     loadDataAndPassToAdapter(viewModel.searchingTitle.value)
                 }
                 (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
                 clearDataOnAdapter()
-                Log.e("load", "null1")
-
-
                 loadDataAndPassToAdapter()
                 binding.searchViewConstraintLayout.visibility = View.GONE
                 binding.searchEditText.text = null
@@ -169,7 +161,6 @@ class HomeFragment : Fragment() {
         adapter = binding.comicsListHome.adapter as ComicsAdapter
 
         adapter.addLoadStateListener { loadState ->
-            Log.e("loadstate", loadState.source.refresh.toString())
             when (loadState.source.refresh) {
                 is LoadState.Loading -> viewModel.changeState(UIState.InProgress)
                 is LoadState.Error -> viewModel.changeState(UIState.Error)
@@ -194,8 +185,6 @@ class HomeFragment : Fragment() {
             { adapter.retry() }
         )
 
-        Log.e("load", viewModel.searchingTitle.value.toString())
-
         loadDataAndPassToAdapter(viewModel.searchingTitle.value)
 
         lifecycleScope.launch {
@@ -208,7 +197,6 @@ class HomeFragment : Fragment() {
 
     private fun initStateObserver() {
         viewModel.state.observe(viewLifecycleOwner, {
-            Log.e("state", it.toString())
             when (it) {
                 is UIState.InProgress -> {
                     binding.homeProgressBar.visibility = View.VISIBLE

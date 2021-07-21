@@ -14,11 +14,15 @@ class ComicsRepository @Inject constructor(private val marvelApi: MarvelApiServi
     fun refreshComicsStream(title: String?): Flow<PagingData<Comic>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 100,
+                pageSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { ComicsPagingSource(marvelApi, title) }
         ).flow
+    }
+
+    companion object {
+        const val NETWORK_PAGE_SIZE = 30
     }
 
 }
