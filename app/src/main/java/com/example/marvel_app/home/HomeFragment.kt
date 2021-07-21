@@ -112,6 +112,8 @@ class HomeFragment : Fragment() {
         })
 
         binding.searchViewCancel.setOnClickListener {
+            clearDataOnAdapter()
+            viewModel.setSearchingTitle(null)
             binding.searchEditText.text = null
             binding.searchingEmptyTextView.visibility = View.VISIBLE
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
@@ -167,6 +169,7 @@ class HomeFragment : Fragment() {
         adapter = binding.comicsListHome.adapter as ComicsAdapter
 
         adapter.addLoadStateListener { loadState ->
+            Log.e("loadstate", loadState.source.refresh.toString())
             when (loadState.source.refresh) {
                 is LoadState.Loading -> viewModel.changeState(UIState.InProgress)
                 is LoadState.Error -> viewModel.changeState(UIState.Error)
@@ -235,13 +238,14 @@ class HomeFragment : Fragment() {
                 else -> {
                     binding.homeProgressBar.visibility = View.GONE
                     binding.homeErrorLayout.visibility = View.GONE
+                    binding.searchingErrorTextView.visibility = View.GONE
+
                 }
             }
         })
     }
 
     private fun loadDataAndPassToAdapter(title: String? = null) {
-        viewModel.changeState(UIState.InProgress)
         loadComicsJob?.cancel()
         loadComicsJob = lifecycleScope.launch {
             viewModel.refreshComicsFromRepositoryFlow(title).collectLatest {
