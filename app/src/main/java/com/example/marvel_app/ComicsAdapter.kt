@@ -2,6 +2,7 @@ package com.example.marvel_app
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.example.marvel_app.databinding.ListComicItemBinding
 import com.example.marvel_app.model.Comic
 
 class ComicsAdapter(private val onClickListener: (comic: Comic) -> Unit) :
-    ListAdapter<Comic, ComicsAdapter.ComicViewHolder>(ComicDiffCallback()) {
+    PagingDataAdapter<Comic, ComicsAdapter.ComicViewHolder>(ComicDiffCallback()) {
 
     class ComicViewHolder(private val binding: ListComicItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,9 +38,11 @@ class ComicsAdapter(private val onClickListener: (comic: Comic) -> Unit) :
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
         val comic = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.invoke(comic)
+            if (comic != null) {
+                onClickListener.invoke(comic)
+            }
         }
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 }
 

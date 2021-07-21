@@ -43,8 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/search_view_margin"
                     android:layout_marginEnd="@dimen/search_view_margin"
-                    android:src="@drawable/search_icon"
-                    android:contentDescription="@string/search_icon" />
+                    android:contentDescription="@string/search_icon"
+                    android:src="@drawable/search_icon" />
 
                 <EditText
                     android:id="@+id/search_edit_text"
@@ -52,11 +52,11 @@
                     android:layout_height="@dimen/search_view_height"
                     android:background="@color/transparent"
                     android:hint="@string/search_for_a_comic_book"
-                    android:singleLine="true"
-                    android:textColor="@color/search_view_text_color"
-                    android:importantForAutofill="no"
                     android:imeOptions="actionSearch"
-                    android:inputType="text" />
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/search_view_text_color" />
             </LinearLayout>
 
             <TextView
@@ -74,11 +74,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--app:comics="@{viewModel.currentSearchResult}"-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comics_list_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:comics="@{viewModel.comics}"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,15 +86,41 @@
             app:layout_constraintTop_toBottomOf="@id/search_view_constraint_layout"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/home_error_textView"
-            style="@style/home_screen_message_style"
-            android:text="@string/error_message"
+        <LinearLayout
+            android:id="@+id/home_error_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/home_screen_info_message_margin"
+            android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Error occurred :(" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/home_error_textView"
+                style="@style/home_screen_message_style"
+                android:text="@string/error_message"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Error occurred :(" />
+
+            <Button
+                android:id="@+id/retry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/retry"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/searching_error_textView"
