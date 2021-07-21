@@ -110,7 +110,6 @@ class HomeFragment : Fragment() {
         binding.searchViewCancel.setOnClickListener {
             binding.searchEditText.text = null
             binding.searchingEmptyTextView.visibility = View.VISIBLE
-            viewModel.clearComicList()
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
             binding.searchViewCancel.visibility = View.GONE
             binding.searchingErrorTextView.visibility = View.GONE
