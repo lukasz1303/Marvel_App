@@ -153,7 +153,6 @@ class HomeViewModelTest {
         val inSearching: Boolean? = homeViewModel.inSearching.value
         if (inSearching != null) {
             assert(!inSearching)
-            assert(homeViewModel.comics.value?.size ?: 0 == 0)
         } else {
             assert(false)
         }
@@ -180,27 +179,9 @@ class HomeViewModelTest {
         assert(homeViewModel.state.value == UIState.InSearching)
     }
 
-    @Test
-    fun testClearComicList() {
-        val comic = Comic("Comic", "url", "ext", "desc", null, null)
-        homeViewModel.comics.value = listOf(comic, comic)
-        assert(homeViewModel.comics.value!!.isNotEmpty())
-        homeViewModel.clearComicList()
-        assert(homeViewModel.comics.value!!.isEmpty())
-    }
-
-
-    @Test
-    fun testRefreshComicsFromRepository(){
-        val comic = Comic("Comic", "url", "ext", "desc", null, null)
-        //coEvery { comicsRepository.refreshComics(null) } returns listOf(comic, comic)
-        homeViewModel.refreshComicsFromRepository(null)
-        assert(homeViewModel.comics.value.isNullOrEmpty())
-    }
 
     @Test
     fun testCheckIfUserSignedIn() {
-
         //every { firebaseRepository.user } returns null
         val b = homeViewModel.checkIfUserSignedIn()
         assert(!b)
