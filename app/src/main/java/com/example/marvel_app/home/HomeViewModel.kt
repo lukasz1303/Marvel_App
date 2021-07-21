@@ -34,11 +34,6 @@ class HomeViewModel @Inject constructor(
     val inSearching: LiveData<Boolean> get() = mutableInSearching
 
     fun setInSearching(inSearching: Boolean) {
-        if (inSearching != mutableInSearching.value && inSearching) {
-            comics = null
-        } else if (mutableInSearching.value == true && !inSearching) {
-            refreshComicsFromRepositoryFlow(null)
-        }
         mutableInSearching.value = inSearching
     }
 
