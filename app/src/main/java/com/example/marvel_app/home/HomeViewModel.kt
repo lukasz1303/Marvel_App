@@ -81,4 +81,12 @@ class HomeViewModel @Inject constructor(
     fun changeState(state: UIState) {
         _state.value = state
     }
+
+    fun setSearchingTitle(title: String?){
+        _searchingTitle.value = title
+    }
+
+    fun clearComicsList(){
+        comics = null
+    }
 }

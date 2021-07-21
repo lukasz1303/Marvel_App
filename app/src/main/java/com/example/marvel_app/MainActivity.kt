@@ -58,7 +58,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailFragment -> navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
                 R.id.settingsFragment -> navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToHomeFragment())
             }
-
+            viewModel.setSearchingTitle(null)
+            viewModel.clearComicsList()
             when (item.itemId) {
                 R.id.home_bottom_navigation -> {
                     viewModel.setInSearching(false)
