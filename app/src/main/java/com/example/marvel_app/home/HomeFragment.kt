@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -21,6 +20,7 @@ import com.example.marvel_app.ComicsAdapter
 import com.example.marvel_app.R
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentHomeBinding
+import com.example.marvel_app.pagination.ComicsLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -75,7 +75,6 @@ class HomeFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     private fun setupSearchView() {
 
@@ -152,15 +151,15 @@ class HomeFragment : Fragment() {
             }
         }
         adapter = binding.comicsListHome.adapter as ComicsAdapter
-        viewModel.changeState(UIState.InProgress)
-        Log.e("HomeFragment", viewModel.state.value.toString())
+        binding.comicsListHome.adapter = adapter.withLoadStateFooter(
+            footer = ComicsLoadStateAdapter { adapter.retry() }
+        )
+
         loadDataAndPassToAdapter()
 
-        viewModel.viewModelScope.launch {
+        lifecycleScope.launch {
             adapter.loadStateFlow
-                // Only emit when REFRESH LoadState changes.
                 .distinctUntilChangedBy { it.refresh }
-                // Only react to cases where REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
                 .collect { binding.comicsListHome.scrollToPosition(0) }
         }
@@ -208,20 +207,17 @@ class HomeFragment : Fragment() {
     private fun loadDataAndPassToAdapter(title: String? = null) {
         viewModel.changeState(UIState.InProgress)
         loadComicsJob?.cancel()
-        loadComicsJob = viewModel.viewModelScope.launch {
+        loadComicsJob = lifecycleScope.launch {
             viewModel.refreshComicsFromRepositoryFlow(title).collectLatest {
                 adapter.submitData(it)
             }
         }
         viewModel.changeState(UIState.Success)
-
     }
 
     private fun clearDataOnAdapter() {
         loadComicsJob?.cancel()
-        viewModel.changeState(UIState.InProgress)
-
-        loadComicsJob = viewModel.viewModelScope.launch {
+        loadComicsJob = lifecycleScope.launch {
             adapter.submitData(PagingData.empty())
         }
     }

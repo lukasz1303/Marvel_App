@@ -15,7 +15,7 @@ class ComicsRepository @Inject constructor(private val marvelApi: MarvelApiServi
 
     suspend fun refreshComics(title: String?): List<Comic>? {
         val networkResponse =
-            marvelApi.getResponseAsync(NETWORK_PAGE_SIZE, 0, "-onsaleDate", title)
+            marvelApi.getResponseAsync(100, 0, "-onsaleDate", title)
         if (networkResponse.isSuccessful) {
             return networkResponse.body()?.data?.results?.asDomainModel()
         } else {
@@ -34,7 +34,7 @@ class ComicsRepository @Inject constructor(private val marvelApi: MarvelApiServi
     }
 
     companion object {
-        private const val NETWORK_PAGE_SIZE = 50
+        const val NETWORK_PAGE_SIZE = 100
     }
 
 }
