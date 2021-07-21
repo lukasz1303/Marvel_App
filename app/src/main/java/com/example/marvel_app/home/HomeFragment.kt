@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -62,6 +61,11 @@ class HomeFragment : Fragment() {
         setupNavigationToDetailScreen()
         setupBottomNavigationStateObserver()
         setupSearchView()
+        setupRetryButton()
+    }
+
+    private fun setupRetryButton() {
+        binding.retryButton.setOnClickListener { adapter.retry() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -151,8 +155,30 @@ class HomeFragment : Fragment() {
             }
         }
         adapter = binding.comicsListHome.adapter as ComicsAdapter
+
+        adapter.addLoadStateListener { loadState ->
+            when (loadState.source.refresh) {
+                is LoadState.Loading -> viewModel.changeState(UIState.InProgress)
+                is LoadState.Error -> viewModel.changeState(UIState.Error)
+                is LoadState.NotLoading -> {
+                    if (adapter.itemCount != 0) {
+                        viewModel.changeState(UIState.Success)
+                    } else if (viewModel.inSearching.value == true) {
+                        if (viewModel.searchingTitle.value == null) {
+                            viewModel.changeState(UIState.InSearching)
+                        } else {
+                            viewModel.changeState(UIState.SearchingError)
+                        }
+                    } else {
+                        viewModel.changeState(UIState.Error)
+                    }
+                }
+            }
+        }
+
         binding.comicsListHome.adapter = adapter.withLoadStateFooter(
-            footer = ComicsLoadStateAdapter { adapter.retry() }
+            footer = ComicsLoadStateAdapter
+            { adapter.retry() }
         )
 
         loadDataAndPassToAdapter()
@@ -168,22 +194,20 @@ class HomeFragment : Fragment() {
 
     private fun initStateObserver() {
         viewModel.state.observe(viewLifecycleOwner, {
-            Log.e("current State", viewModel.state.value.toString())
-
             when (it) {
                 is UIState.InProgress -> {
                     binding.homeProgressBar.visibility = View.VISIBLE
-                    binding.homeErrorTextView.visibility = View.GONE
+                    binding.homeErrorLayout.visibility = View.GONE
                     binding.searchingErrorTextView.visibility = View.GONE
                     binding.searchingEmptyTextView.visibility = View.GONE
                 }
                 is UIState.Error -> {
-                    binding.homeErrorTextView.visibility = View.VISIBLE
+                    binding.homeErrorLayout.visibility = View.VISIBLE
                     binding.homeProgressBar.visibility = View.GONE
                 }
                 is UIState.InSearching -> {
                     binding.searchViewConstraintLayout.visibility = View.VISIBLE
-                    binding.homeErrorTextView.visibility = View.GONE
+                    binding.homeErrorLayout.visibility = View.GONE
                     binding.homeProgressBar.visibility = View.GONE
 
                     if (viewModel.searchingTitle.value == null) {
@@ -198,7 +222,7 @@ class HomeFragment : Fragment() {
                 }
                 else -> {
                     binding.homeProgressBar.visibility = View.GONE
-                    binding.homeErrorTextView.visibility = View.GONE
+                    binding.homeErrorLayout.visibility = View.GONE
                 }
             }
         })
@@ -212,7 +236,6 @@ class HomeFragment : Fragment() {
                 adapter.submitData(it)
             }
         }
-        viewModel.changeState(UIState.Success)
     }
 
     private fun clearDataOnAdapter() {

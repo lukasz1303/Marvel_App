@@ -12,7 +12,6 @@ import com.example.marvel_app.repository.ComicsRepository
 import com.example.marvel_app.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onEmpty
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,11 +43,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun refreshComicsFromRepositoryFlow(title: String?): Flow<PagingData<Comic>> {
-        _state.value = UIState.InProgress
 
         val lastResult = comics
         if (title == searchingTitle.value && lastResult != null) {
-            _state.value = UIState.Success
             return lastResult
 
         }
@@ -56,12 +53,6 @@ class HomeViewModel @Inject constructor(
         val newResult: Flow<PagingData<Comic>> =
             comicsRepository.refreshComicsStream(title).cachedIn(viewModelScope)
         comics = newResult
-        comics?.let {
-            comics!!.onEmpty {
-                _state.value = UIState.SearchingError
-            }
-        }
-        _state.value = UIState.Success
         return newResult
     }
 
