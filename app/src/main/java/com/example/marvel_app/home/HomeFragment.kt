@@ -1,6 +1,5 @@
 package com.example.marvel_app.home
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
@@ -134,7 +133,6 @@ class HomeFragment : Fragment() {
                 } else {
                     binding.searchViewConstraintLayout.elevation = 0F
                 }
-                disableActionBarAnimation()
                 (activity as AppCompatActivity?)?.supportActionBar?.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
@@ -145,11 +143,6 @@ class HomeFragment : Fragment() {
                 binding.searchViewCancel.visibility = View.GONE
             }
         })
-    }
-
-    @SuppressLint("RestrictedApi")
-    fun disableActionBarAnimation() {
-        (activity as AppCompatActivity?)?.supportActionBar?.setShowHideAnimationEnabled(false)
     }
 
     private fun setupNavigationToDetailScreen() {
