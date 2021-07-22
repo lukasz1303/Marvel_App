@@ -117,6 +117,8 @@ class HomeFragment : Fragment() {
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
             binding.searchViewCancel.visibility = View.GONE
             binding.searchingErrorTextView.visibility = View.GONE
+            binding.searchViewConstraintLayout.elevation = 0F
+
         }
     }
 
@@ -128,12 +130,13 @@ class HomeFragment : Fragment() {
                 clearDataOnAdapter()
                 if(viewModel.searchingTitle.value?.isNotEmpty() == true){
                     loadDataAndPassToAdapter(viewModel.searchingTitle.value)
+                } else {
+                    binding.searchViewConstraintLayout.elevation = 0F
                 }
                 disableActionBarAnimation()
                 (activity as AppCompatActivity?)?.supportActionBar?.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
-
                 clearDataOnAdapter()
                 loadDataAndPassToAdapter()
                 binding.searchViewConstraintLayout.visibility = View.GONE
@@ -176,11 +179,13 @@ class HomeFragment : Fragment() {
                 is LoadState.NotLoading -> {
                     if (adapter.itemCount != 0) {
                         viewModel.changeState(UIState.Success)
+                        binding.searchViewConstraintLayout.elevation = 16F
                     } else if (viewModel.inSearching.value == true) {
                         if (viewModel.searchingTitle.value == null) {
                             viewModel.changeState(UIState.InSearching)
                         } else {
                             viewModel.changeState(UIState.SearchingError)
+                            binding.searchViewConstraintLayout.elevation = 0F
                         }
                     } else {
                         viewModel.changeState(UIState.Error)
