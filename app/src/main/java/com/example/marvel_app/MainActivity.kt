@@ -118,10 +118,6 @@ class MainActivity : AppCompatActivity() {
         val defaultValue = false
         val darkTheme =
             sharedPref.getBoolean(getString(R.string.preference_dark_theme), defaultValue)
-        if (darkTheme) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        AppCompatDelegate.setDefaultNightMode(if (darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
