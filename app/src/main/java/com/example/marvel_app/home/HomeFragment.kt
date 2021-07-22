@@ -1,5 +1,6 @@
 package com.example.marvel_app.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -120,6 +121,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupBottomNavigationStateObserver() {
+
         viewModel.inSearching.observe(viewLifecycleOwner, { searching ->
             if (searching) {
                 viewModel.initFragmentForSearching()
@@ -127,7 +129,8 @@ class HomeFragment : Fragment() {
                 if(viewModel.searchingTitle.value?.isNotEmpty() == true){
                     loadDataAndPassToAdapter(viewModel.searchingTitle.value)
                 }
-                (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+                disableActionBarAnimation()
+                (activity as AppCompatActivity?)?.supportActionBar?.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
                 clearDataOnAdapter()
@@ -137,6 +140,11 @@ class HomeFragment : Fragment() {
                 binding.searchViewCancel.visibility = View.GONE
             }
         })
+    }
+
+    @SuppressLint("RestrictedApi")
+    fun disableActionBarAnimation(){
+        (activity as AppCompatActivity?)?.supportActionBar?.setShowHideAnimationEnabled(false)
     }
 
     private fun setupNavigationToDetailScreen() {
