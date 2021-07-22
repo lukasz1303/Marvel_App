@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
+        setSupportActionBar(binding.toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
 
@@ -37,11 +40,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavController() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.homeFragment) {
-                binding.bottomNavigation.visibility = View.VISIBLE
-            }
-            if (destination.id == R.id.loginFragment) {
-                binding.bottomNavigation.visibility = View.GONE
+            when(destination.id){
+                R.id.homeFragment -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
+                    setSupportActionBar(binding.toolbar)
+                }
+                R.id.loginFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+                R.id.detailFragment -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
+                    setSupportActionBar(binding.toolbar)
+                }
+                R.id.settingsFragment -> {
+                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
+                    setSupportActionBar(binding.toolbar)
+                }
             }
         }
     }

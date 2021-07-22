@@ -133,6 +133,7 @@ class HomeFragment : Fragment() {
                 (activity as AppCompatActivity?)?.supportActionBar?.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
+
                 clearDataOnAdapter()
                 loadDataAndPassToAdapter()
                 binding.searchViewConstraintLayout.visibility = View.GONE
