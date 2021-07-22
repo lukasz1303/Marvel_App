@@ -1,9 +1,11 @@
 package com.example.marvel_app
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
 
         checkIfSignedIn()
+        setTheme()
         setupBottomNavigationView()
         setupActionBar()
         setupNavController()
@@ -108,5 +111,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun setTheme() {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val defaultValue = false
+        val darkTheme =
+            sharedPref.getBoolean(getString(R.string.preference_dark_theme), defaultValue)
+        AppCompatDelegate.setDefaultNightMode(if (darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
