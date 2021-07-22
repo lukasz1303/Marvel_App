@@ -28,9 +28,8 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/comic_image_description"
-                android:scaleType="fitStart"
                 app:image_extension="@{viewModel.selectedComic.imageExtension}"
                 app:image_resolution="@{(1)}"
                 app:image_url="@{viewModel.selectedComic.imageUrl}"

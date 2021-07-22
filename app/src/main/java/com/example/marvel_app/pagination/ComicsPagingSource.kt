@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.example.marvel_app.model.Comic
 import com.example.marvel_app.network.MarvelApiService
 import com.example.marvel_app.network.asDomainModel
+import com.example.marvel_app.repository.ComicsRepository.Companion.NETWORK_PAGE_SIZE
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -22,12 +23,12 @@ class ComicsPagingSource(private val service: MarvelApiService, private val quer
         val position = params.key ?: 0
         val apiQuery = query
         return try {
-            val response = service.getResponseAsync(100, position, "-onsaleDate", apiQuery)
+            val response = service.getResponseAsync(params.loadSize, position*NETWORK_PAGE_SIZE, "-onsaleDate,title", apiQuery)
             val comics = response.body()?.data?.results?.asDomainModel() ?: listOf()
             val nextKey = if (comics.isEmpty()) {
                 null
             } else {
-                position + (params.loadSize / 100)
+                position + (params.loadSize / NETWORK_PAGE_SIZE)
             }
             LoadResult.Page(
                 data = comics,

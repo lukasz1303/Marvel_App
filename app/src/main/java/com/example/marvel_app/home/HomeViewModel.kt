@@ -28,6 +28,8 @@ class HomeViewModel @Inject constructor(
     val searchingTitle: LiveData<String>
         get() = _searchingTitle
 
+    var comics: Flow<PagingData<Comic>>? = null
+
     private val mutableInSearching = MutableLiveData<Boolean>()
     val inSearching: LiveData<Boolean> get() = mutableInSearching
 
@@ -37,9 +39,15 @@ class HomeViewModel @Inject constructor(
 
     fun refreshComicsFromRepositoryFlow(title: String?): Flow<PagingData<Comic>> {
 
+        val lastResult = comics
+        if (title == searchingTitle.value && lastResult != null) {
+            return lastResult
+        }
+
         _searchingTitle.value = title
         val newResult: Flow<PagingData<Comic>> =
             comicsRepository.refreshComicsStream(title).cachedIn(viewModelScope)
+        comics = newResult
         return newResult
     }
 
@@ -72,5 +80,13 @@ class HomeViewModel @Inject constructor(
 
     fun changeState(state: UIState) {
         _state.value = state
+    }
+
+    fun setSearchingTitle(title: String?){
+        _searchingTitle.value = title
+    }
+
+    fun clearComicsList(){
+        comics = null
     }
 }

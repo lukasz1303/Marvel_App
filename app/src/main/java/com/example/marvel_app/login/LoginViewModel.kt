@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.marvel_app.UIState
 import com.example.marvel_app.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,4 +52,21 @@ class LoginViewModel @Inject constructor(private val firebaseRepository: Firebas
             }
         }
     }
+
+    companion object {
+        val EMAIL_ADDRESS_WITH_SPECIAL_CHARS: Pattern = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+\\#\\&\\~\\!\\^\\`\\{\\}\\/\\=\\\\\$\\*\\?\\|]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+        )
+    }
+
+    fun isEmailValid(email: String): Boolean {
+        return EMAIL_ADDRESS_WITH_SPECIAL_CHARS.matcher(email).matches()
+    }
+
 }

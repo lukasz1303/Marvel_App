@@ -1,6 +1,7 @@
 package com.example.marvel_app.home
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -89,6 +90,7 @@ class HomeFragment : Fragment() {
         binding.searchEditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 loadDataAndPassToAdapter(binding.searchEditText.editableText.toString())
+                viewModel.setSearchingTitle(binding.searchEditText.editableText.toString())
                 inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
                 return@OnKeyListener true
             }
@@ -108,20 +110,33 @@ class HomeFragment : Fragment() {
         })
 
         binding.searchViewCancel.setOnClickListener {
+            clearDataOnAdapter()
+            viewModel.setSearchingTitle(null)
             binding.searchEditText.text = null
-            binding.searchingEmptyTextView.visibility = View.VISIBLE
+            binding.apply {
+                searchingEmptyTextView.visibility = View.VISIBLE
+                searchViewCancel.visibility = View.GONE
+                searchingErrorTextView.visibility = View.GONE
+                searchViewConstraintLayout.elevation = 0F
+            }
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
-            binding.searchViewCancel.visibility = View.GONE
-            binding.searchingErrorTextView.visibility = View.GONE
+
+
         }
     }
 
     private fun setupBottomNavigationStateObserver() {
+
         viewModel.inSearching.observe(viewLifecycleOwner, { searching ->
             if (searching) {
                 viewModel.initFragmentForSearching()
                 clearDataOnAdapter()
-                (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+                if (viewModel.searchingTitle.value?.isNotEmpty() == true) {
+                    loadDataAndPassToAdapter(viewModel.searchingTitle.value)
+                } else {
+                    binding.searchViewConstraintLayout.elevation = 0F
+                }
+                (activity as AppCompatActivity?)?.supportActionBar?.hide()
             } else {
                 (activity as AppCompatActivity?)?.supportActionBar?.show()
                 clearDataOnAdapter()
@@ -161,11 +176,13 @@ class HomeFragment : Fragment() {
                 is LoadState.NotLoading -> {
                     if (adapter.itemCount != 0) {
                         viewModel.changeState(UIState.Success)
+                        binding.searchViewConstraintLayout.elevation = 16 * Resources.getSystem().displayMetrics.density
                     } else if (viewModel.inSearching.value == true) {
                         if (viewModel.searchingTitle.value == null) {
                             viewModel.changeState(UIState.InSearching)
                         } else {
                             viewModel.changeState(UIState.SearchingError)
+                            binding.searchViewConstraintLayout.elevation = 0F
                         }
                     } else {
                         viewModel.changeState(UIState.Error)
@@ -179,7 +196,7 @@ class HomeFragment : Fragment() {
             { adapter.retry() }
         )
 
-        loadDataAndPassToAdapter()
+        loadDataAndPassToAdapter(viewModel.searchingTitle.value)
 
         lifecycleScope.launch {
             adapter.loadStateFlow
@@ -220,13 +237,14 @@ class HomeFragment : Fragment() {
                 else -> {
                     binding.homeProgressBar.visibility = View.GONE
                     binding.homeErrorLayout.visibility = View.GONE
+                    binding.searchingErrorTextView.visibility = View.GONE
+
                 }
             }
         })
     }
 
     private fun loadDataAndPassToAdapter(title: String? = null) {
-        viewModel.changeState(UIState.InProgress)
         loadComicsJob?.cancel()
         loadComicsJob = lifecycleScope.launch {
             viewModel.refreshComicsFromRepositoryFlow(title).collectLatest {
@@ -236,6 +254,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun clearDataOnAdapter() {
+
         loadComicsJob?.cancel()
         loadComicsJob = lifecycleScope.launch {
             adapter.submitData(PagingData.empty())

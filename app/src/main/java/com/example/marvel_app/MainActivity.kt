@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
 
@@ -37,11 +38,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavController() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.homeFragment) {
-                binding.bottomNavigation.visibility = View.VISIBLE
-            }
-            if (destination.id == R.id.loginFragment) {
-                binding.bottomNavigation.visibility = View.GONE
+            when (destination.id) {
+                R.id.homeFragment -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
+                    setSupportActionBar(binding.toolbar)
+                }
+                R.id.loginFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+                R.id.detailFragment -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
+                    setSupportActionBar(binding.toolbar)
+                }
+                R.id.settingsFragment -> {
+                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
+                    setSupportActionBar(binding.toolbar)
+                }
             }
         }
     }
@@ -58,7 +72,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailFragment -> navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
                 R.id.settingsFragment -> navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToHomeFragment())
             }
-
+            viewModel.setSearchingTitle(null)
+            viewModel.clearComicsList()
             when (item.itemId) {
                 R.id.home_bottom_navigation -> {
                     viewModel.setInSearching(false)
