@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
         setSupportActionBar(binding.toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
