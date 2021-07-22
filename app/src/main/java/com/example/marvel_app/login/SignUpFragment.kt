@@ -58,7 +58,14 @@ class SignUpFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                viewModel.signUpWithEmail(email, password)
+                if (viewModel.isEmailValid(email)) {
+                    activity?.let { viewModel.signUpWithEmail(email, password) }
+                } else {
+                    Toast.makeText(
+                        activity, R.string.invalid_email_error_msg,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
