@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
             if (searching) {
                 viewModel.initFragmentForSearching()
                 clearDataOnAdapter()
-                if(viewModel.searchingTitle.value?.isNotEmpty() == true){
+                if (viewModel.searchingTitle.value?.isNotEmpty() == true) {
                     loadDataAndPassToAdapter(viewModel.searchingTitle.value)
                 } else {
                     binding.searchViewConstraintLayout.elevation = 0F
@@ -147,7 +147,7 @@ class HomeFragment : Fragment() {
     }
 
     @SuppressLint("RestrictedApi")
-    fun disableActionBarAnimation(){
+    fun disableActionBarAnimation() {
         (activity as AppCompatActivity?)?.supportActionBar?.setShowHideAnimationEnabled(false)
     }
 

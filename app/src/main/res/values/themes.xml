@@ -10,16 +10,6 @@
         <item name="colorSecondary">@color/strawberry</item>
         <item name="colorSecondaryVariant">@color/strawberry_dark</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorPrimary">@android:color/black</item>
-    </style>
-
-    <style name="Custom.ActionBar" parent="Widget.MaterialComponents.Light.ActionBar.Solid">
-        <item name="background">@color/transparent</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

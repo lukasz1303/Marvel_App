@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavController() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when(destination.id){
+            when (destination.id) {
                 R.id.homeFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                     binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
