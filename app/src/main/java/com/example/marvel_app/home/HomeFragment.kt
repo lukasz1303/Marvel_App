@@ -113,11 +113,14 @@ class HomeFragment : Fragment() {
             clearDataOnAdapter()
             viewModel.setSearchingTitle(null)
             binding.searchEditText.text = null
-            binding.searchingEmptyTextView.visibility = View.VISIBLE
+            binding.apply {
+                searchingEmptyTextView.visibility = View.VISIBLE
+                searchViewCancel.visibility = View.GONE
+                searchingErrorTextView.visibility = View.GONE
+                searchViewConstraintLayout.elevation = 0F
+            }
             inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
-            binding.searchViewCancel.visibility = View.GONE
-            binding.searchingErrorTextView.visibility = View.GONE
-            binding.searchViewConstraintLayout.elevation = 0F
+
 
         }
     }

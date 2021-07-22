@@ -58,17 +58,21 @@ class SignUpFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                if (viewModel.isEmailValid(email)) {
-                    activity?.let { viewModel.signUpWithEmail(email, password) }
-                } else {
-                    Toast.makeText(
-                        activity, R.string.invalid_email_error_msg,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                tryToSignUp(email,password)
             }
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view?.windowToken, 0)
+        }
+    }
+
+    private fun tryToSignUp(email: String, password: String) {
+        if (viewModel.isEmailValid(email)) {
+            viewModel.signUpWithEmail(email, password)
+        } else {
+            Toast.makeText(
+                activity, R.string.invalid_email_error_msg,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
