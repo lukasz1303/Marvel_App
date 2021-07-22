@@ -2,6 +2,7 @@ package com.example.marvel_app.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -179,7 +180,7 @@ class HomeFragment : Fragment() {
                 is LoadState.NotLoading -> {
                     if (adapter.itemCount != 0) {
                         viewModel.changeState(UIState.Success)
-                        binding.searchViewConstraintLayout.elevation = 16F
+                        binding.searchViewConstraintLayout.elevation = 16 * Resources.getSystem().displayMetrics.density
                     } else if (viewModel.inSearching.value == true) {
                         if (viewModel.searchingTitle.value == null) {
                             viewModel.changeState(UIState.InSearching)
