@@ -45,19 +45,28 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                     binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
+                    binding.toolbar.titleMarginTop =
+                        resources.getDimension(R.dimen.home_toolbar_title_margin_top).toInt()
                     setSupportActionBar(binding.toolbar)
                 }
                 R.id.loginFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
+                    binding.toolbar.titleMarginTop = 0
+
+                }
+                R.id.signUpFragment -> {
+                    binding.toolbar.titleMarginTop = 0
                 }
                 R.id.detailFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                     binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
+                    binding.toolbar.titleMarginTop = 0
                     setSupportActionBar(binding.toolbar)
                 }
                 R.id.settingsFragment -> {
                     binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
                     setSupportActionBar(binding.toolbar)
+                    binding.toolbar.titleMarginTop = 0
                 }
             }
         }
