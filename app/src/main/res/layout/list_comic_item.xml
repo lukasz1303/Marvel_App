@@ -25,13 +25,13 @@
             android:layout_marginBottom="@dimen/card_view_margin"
             app:cardBackgroundColor="@color/background_color"
             app:cardCornerRadius="@dimen/card_view_radius"
+            app:cardElevation="@dimen/list_item_card_elevation"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="false"
-            app:cardElevation="@dimen/list_item_card_elevation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -77,6 +77,7 @@
                         android:layout_marginStart="@dimen/comic_text_margin_start"
                         android:layout_marginTop="@dimen/comic_title_margin_top"
                         android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
                         android:maxLines="2"
                         android:text="@{viewHolder.title}"
                         android:textColor="@color/text_color"
