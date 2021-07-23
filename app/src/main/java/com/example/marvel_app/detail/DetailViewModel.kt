@@ -4,14 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.marvel_app.model.Comic
+import com.example.marvel_app.repository.ComicsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetailViewModel(comic: Comic) : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    private val comicsRepository: ComicsRepository) : ViewModel() {
 
     private val _selectedComic = MutableLiveData<Comic>()
     val selectedComic: LiveData<Comic>
         get() = _selectedComic
 
-    init {
+    fun setComic(comic: Comic){
         _selectedComic.value = comic
     }
 }

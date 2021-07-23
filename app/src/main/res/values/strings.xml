@@ -37,4 +37,6 @@
     <string name="invalid_email_error_msg">Error. Check email spelling</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="preference_dark_theme">com.example.marvel_app.preference_dark_theme</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
