@@ -5,12 +5,14 @@ import androidx.lifecycle.Transformations
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.marvel_app.database.Author
 import com.example.marvel_app.database.ComicsDatabase
 import com.example.marvel_app.database.DatabaseComic
 import com.example.marvel_app.database.asDomainModel
 import com.example.marvel_app.model.Comic
 import com.example.marvel_app.network.MarvelApiService
 import com.example.marvel_app.pagination.ComicsPagingSource
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -35,19 +37,42 @@ class ComicsRepository @Inject constructor(
         }
     }
 
-    fun insertComicToDatabase(comic: Comic) {
-        database.comicDao.insertAll(
-            DatabaseComic(
-                comic.id,
-                comic.title,
-                comic.imageUrl,
-                comic.imageExtension,
-                comic.description,
-                comic.authors,
-                comic.detailUrl
+    suspend fun insertComicToDatabase(comic: Comic) {
+        withContext(Dispatchers.IO){
+            database.comicDao.insertComic(
+                DatabaseComic(
+                    comic.id,
+                    comic.title,
+                    comic.imageUrl,
+                    comic.imageExtension,
+                    comic.description,
+                    comic.detailUrl
+                )
             )
-        )
+
+            val databaseAuthors = comic.authors?.map {
+                Author(
+                    name = it,
+                    comicId = comic.id
+                )
+            }
+            if (databaseAuthors != null) {
+                database.comicDao.insertAuthors(databaseAuthors)
+            }
+        }
+
     }
+
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
+
+    init {
+        val comic = Comic(1,"marvel", "url", "ext", "desc", listOf("autor 1", "autor 2"), "det")
+        coroutineScope.launch{
+            insertComicToDatabase(comic)
+        }
+    }
+
 
 
     companion object {
