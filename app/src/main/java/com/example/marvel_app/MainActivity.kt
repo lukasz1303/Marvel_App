@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.loginFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
                     binding.toolbar.titleMarginTop = 0
-
                 }
                 R.id.signUpFragment -> {
                     binding.toolbar.titleMarginTop = 0
