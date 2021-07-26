@@ -33,10 +33,12 @@ class ComicsRepository @Inject constructor(
         ).flow
     }
 
-    fun getComicsFromDatabase(): LiveData<List<Comic>> {
-        return Transformations.map(database.comicDao.getAll()) {
-            it.asDomainModel()
-        }
+    suspend fun getComicsFromDatabase(): List<Comic> {
+        var result: List<Comic> = listOf()
+        coroutineScope.launch {
+            result = database.comicDao.getAll().asDomainModel()
+        }.join()
+        return result
     }
 
     suspend fun insertComicToDatabase(comic: Comic) {

@@ -15,7 +15,7 @@ interface ComicDao {
 
     @Transaction
     @Query("SELECT * FROM comics")
-    fun getAll(): LiveData<List<DatabaseComicWithAuthors>>
+    fun getAll(): List<DatabaseComicWithAuthors>
 
     @Transaction
     @Query("SELECT * FROM comics where id = :id")
