@@ -6,12 +6,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.marvel_app.databinding.ActivityMainBinding
 import com.example.marvel_app.detail.DetailFragmentDirections
+import com.example.marvel_app.favourites.FavouritesFragment
+import com.example.marvel_app.favourites.FavouritesFragmentDirections
+import com.example.marvel_app.home.HomeFragment
+import com.example.marvel_app.home.HomeFragmentDirections
 import com.example.marvel_app.home.HomeViewModel
 import com.example.marvel_app.settings.SettingsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Marvel_App)
@@ -78,10 +86,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupBottomNavigationView() {
+
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (navController.currentDestination?.id) {
                 R.id.detailFragment -> navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
                 R.id.settingsFragment -> navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToHomeFragment())
+                R.id.favouritesFragment -> navController.navigate(FavouritesFragmentDirections.actionFavouritesFragmentToHomeFragment())
             }
             viewModel.setSearchingTitle(null)
             viewModel.clearComicsList()
@@ -94,9 +104,14 @@ class MainActivity : AppCompatActivity() {
                     viewModel.setInSearching(true)
                     true
                 }
+                R.id.favourites_bottom_navigation -> {
+                   navController.navigate(HomeFragmentDirections.actionHomeFragmentToFavouritesFragment())
+                    true
+                }
                 else -> false
             }
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -113,11 +128,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (navController.currentDestination?.id == R.id.homeFragment && viewModel.inSearching.value == true) {
-            viewModel.setInSearching(false)
-            binding.bottomNavigation.selectedItemId = R.id.home_bottom_navigation
-        } else {
-            super.onBackPressed()
+        when(navController.currentDestination?.id) {
+            R.id.homeFragment -> {
+                if (viewModel.inSearching.value == true) {
+                    viewModel.setInSearching(false)
+                    binding.bottomNavigation.selectedItemId = R.id.home_bottom_navigation
+                }
+            }
+            R.id.favouritesFragment -> {
+                navController.navigate(FavouritesFragmentDirections.actionFavouritesFragmentToHomeFragment())
+                binding.bottomNavigation.selectedItemId = R.id.home_bottom_navigation
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 
