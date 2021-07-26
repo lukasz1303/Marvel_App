@@ -14,7 +14,7 @@ class SimpleComicAdapter(private val onClickListener: (comic: Comic) -> Unit) :
 
     class ComicDiffCallback : DiffUtil.ItemCallback<Comic>() {
         override fun areItemsTheSame(oldItem: Comic, newItem: Comic): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Comic, newItem: Comic): Boolean {

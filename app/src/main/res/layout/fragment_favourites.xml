@@ -28,41 +28,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <LinearLayout
-            android:id="@+id/favourites_error_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/home_screen_info_message_margin"
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/favourites_error_textView"
+            style="@style/home_screen_message_style"
+            android:text="@string/empty_favourites_message"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/favourites_error_textView"
-                style="@style/home_screen_message_style"
-                android:text="@string/error_message"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Error occurred :(" />
-
-            <Button
-                android:id="@+id/favourites_retry_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/retry"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="There's no comics added to your favourites" />
 
         <ProgressBar
             android:id="@+id/favourites_progress_bar"

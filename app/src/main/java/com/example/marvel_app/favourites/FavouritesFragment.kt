@@ -11,7 +11,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvel_app.R
 import com.example.marvel_app.SimpleComicAdapter
+import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentFavouritesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +41,7 @@ class FavouritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
         setupNavigationToDetailScreen()
+        initStateObserver()
     }
 
     override fun onResume() {
@@ -72,4 +75,23 @@ class FavouritesFragment : Fragment() {
         })
     }
 
+
+    private fun initStateObserver() {
+        viewModel.state.observe(viewLifecycleOwner, {
+            when (it) {
+                is UIState.InProgress -> {
+                    binding.favouritesProgressBar.visibility = View.VISIBLE
+                    binding.favouritesErrorTextView.visibility = View.GONE
+                }
+                is UIState.Error -> {
+                    binding.favouritesErrorTextView.visibility = View.VISIBLE
+                    binding.favouritesProgressBar.visibility = View.GONE
+                }
+                else -> {
+                    binding.favouritesProgressBar.visibility = View.GONE
+                    binding.favouritesErrorTextView.visibility = View.GONE
+                }
+            }
+        })
+    }
 }
