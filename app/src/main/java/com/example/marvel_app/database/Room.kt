@@ -14,8 +14,12 @@ import javax.inject.Singleton
 interface ComicDao {
 
     @Transaction
-    @Query("SELECT * FROM databaseComic")
+    @Query("SELECT * FROM comics")
     fun getAll(): LiveData<List<DatabaseComicWithAuthors>>
+
+    @Transaction
+    @Query("SELECT * FROM comics where id = :id")
+    fun getComic(id: Int): DatabaseComicWithAuthors?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertComic(comic: DatabaseComic)
@@ -24,7 +28,10 @@ interface ComicDao {
     fun insertAuthors(authors: List<Author>)
 
     @Delete
-    fun delete(comic: DatabaseComic)
+    fun deleteComic(comic: DatabaseComic)
+
+    @Delete
+    fun deleteAuthors(authors: List<Author>)
 }
 
 @Database(entities = [DatabaseComic::class, Author::class], version = 1)

@@ -6,14 +6,15 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.example.marvel_app.model.Comic
 
-@Entity
+@Entity(tableName = "comics")
 data class DatabaseComic(
     @PrimaryKey val id: Int,
     val title: String,
     val imageUrl: String?,
     val imageExtension: String?,
     val description: String?,
-    val detailUrl: String?)
+    val detailUrl: String?
+)
 
 @Entity
 data class Author(
