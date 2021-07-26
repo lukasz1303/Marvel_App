@@ -34,7 +34,7 @@ class FavouritesViewModel @Inject constructor(
         _state.value = UIState.InProgress
         viewModelScope.launch {
             comics.value = comicsRepository.getComicsFromDatabase()
-            if(comics.value.isNullOrEmpty()){
+            if (comics.value.isNullOrEmpty()) {
                 _state.value = UIState.Error
             } else {
                 _state.value = UIState.Success

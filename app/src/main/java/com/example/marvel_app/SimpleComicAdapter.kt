@@ -20,7 +20,6 @@ class SimpleComicAdapter(private val onClickListener: (comic: Comic) -> Unit) :
         override fun areContentsTheSame(oldItem: Comic, newItem: Comic): Boolean {
             return oldItem == newItem
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {

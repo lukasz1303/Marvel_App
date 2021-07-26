@@ -6,20 +6,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.marvel_app.databinding.ActivityMainBinding
 import com.example.marvel_app.detail.DetailFragmentDirections
-import com.example.marvel_app.favourites.FavouritesFragment
 import com.example.marvel_app.favourites.FavouritesFragmentDirections
-import com.example.marvel_app.home.HomeFragment
 import com.example.marvel_app.home.HomeFragmentDirections
 import com.example.marvel_app.home.HomeViewModel
 import com.example.marvel_app.settings.SettingsFragmentDirections
@@ -72,14 +65,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSmallToolbar(){
+    private fun setupSmallToolbar() {
         binding.bottomNavigation.visibility = View.VISIBLE
         binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
         binding.toolbar.titleMarginTop = 0
         setSupportActionBar(binding.toolbar)
     }
 
-    private fun setupLargeToolbar(){
+    private fun setupLargeToolbar() {
         binding.bottomNavigation.visibility = View.VISIBLE
         binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
         binding.toolbar.titleMarginTop =
@@ -88,7 +81,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupActionBar() {
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment, R.id.favouritesFragment))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.loginFragment,
+                R.id.homeFragment,
+                R.id.favouritesFragment
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -113,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.favourites_bottom_navigation -> {
-                   navController.navigate(HomeFragmentDirections.actionHomeFragmentToFavouritesFragment())
+                    navController.navigate(HomeFragmentDirections.actionHomeFragmentToFavouritesFragment())
                     true
                 }
                 else -> false
@@ -136,7 +135,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        when(navController.currentDestination?.id) {
+        when (navController.currentDestination?.id) {
             R.id.homeFragment -> {
                 if (viewModel.inSearching.value == true) {
                     viewModel.setInSearching(false)

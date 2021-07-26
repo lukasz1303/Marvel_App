@@ -176,7 +176,8 @@ class HomeFragment : Fragment() {
                 is LoadState.NotLoading -> {
                     if (adapter.itemCount != 0) {
                         viewModel.changeState(UIState.Success)
-                        binding.searchViewConstraintLayout.elevation = 16 * Resources.getSystem().displayMetrics.density
+                        binding.searchViewConstraintLayout.elevation =
+                            16 * Resources.getSystem().displayMetrics.density
                     } else if (viewModel.inSearching.value == true) {
                         if (viewModel.searchingTitle.value == null) {
                             viewModel.changeState(UIState.InSearching)

@@ -1,7 +1,6 @@
 package com.example.marvel_app.database
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import dagger.Module
 import dagger.Provides

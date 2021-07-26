@@ -93,18 +93,18 @@
                             android:textColor="@color/text_color"
                             android:textSize="@dimen/comic_title_text_size"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/favourites_star_icon"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             tools:text="Star Wars #7" />
 
                         <ImageView
                             android:id="@+id/favourites_star_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
+                            android:src="@drawable/ic_baseline_star_border_36"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:src="@drawable/ic_baseline_star_border_36" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

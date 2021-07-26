@@ -1,7 +1,6 @@
 package com.example.marvel_app.favourites
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvel_app.R
 import com.example.marvel_app.SimpleComicAdapter
 import com.example.marvel_app.UIState
 import com.example.marvel_app.databinding.FragmentFavouritesBinding
@@ -59,7 +57,8 @@ class FavouritesFragment : Fragment() {
             }
         }
         adapter = binding.comicsListFavourites.adapter as SimpleComicAdapter
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         viewModel.comics.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
@@ -69,7 +68,11 @@ class FavouritesFragment : Fragment() {
         viewModel.navigateToSelectedComic.observe(viewLifecycleOwner, {
             it?.let {
                 navController
-                    .navigate(FavouritesFragmentDirections.actionFavouritesFragmentToDetailFragment(it))
+                    .navigate(
+                        FavouritesFragmentDirections.actionFavouritesFragmentToDetailFragment(
+                            it
+                        )
+                    )
                 viewModel.displayComicDetailComplete()
             }
         })
