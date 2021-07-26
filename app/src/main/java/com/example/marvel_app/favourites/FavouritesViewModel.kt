@@ -1,6 +1,5 @@
 package com.example.marvel_app.favourites
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.marvel_app.model.Comic
 import com.example.marvel_app.repository.ComicsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,10 +22,10 @@ class FavouritesViewModel @Inject constructor(
     val comics = MutableLiveData<List<Comic>>()
 
     init {
-        getFavouritesComicsFromRepository()
+        refreshFavouritesComicsFromRepository()
     }
 
-    private fun getFavouritesComicsFromRepository() {
+    fun refreshFavouritesComicsFromRepository() {
         viewModelScope.launch {
             comics.value = comicsRepository.getComicsFromDatabase()
         }

@@ -51,32 +51,40 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
-                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
-                    binding.toolbar.titleMarginTop =
-                        resources.getDimension(R.dimen.home_toolbar_title_margin_top).toInt()
-                    setSupportActionBar(binding.toolbar)
+                    setupLargeToolbar()
                 }
                 R.id.loginFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                    binding.toolbar.titleMarginTop = 0
+                    setupSmallToolbar()
                 }
                 R.id.signUpFragment -> {
-                    binding.toolbar.titleMarginTop = 0
+                    setupSmallToolbar()
                 }
                 R.id.detailFragment -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
-                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
-                    binding.toolbar.titleMarginTop = 0
-                    setSupportActionBar(binding.toolbar)
+                    setupSmallToolbar()
                 }
                 R.id.settingsFragment -> {
-                    binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
-                    setSupportActionBar(binding.toolbar)
-                    binding.toolbar.titleMarginTop = 0
+                    setupSmallToolbar()
+                }
+                R.id.favouritesFragment -> {
+                    setupSmallToolbar()
                 }
             }
         }
+    }
+
+    private fun setupSmallToolbar(){
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText_Small)
+        binding.toolbar.titleMarginTop = 0
+        setSupportActionBar(binding.toolbar)
+    }
+
+    private fun setupLargeToolbar(){
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText)
+        binding.toolbar.titleMarginTop =
+            resources.getDimension(R.dimen.home_toolbar_title_margin_top).toInt()
+        setSupportActionBar(binding.toolbar)
     }
 
     private fun setupActionBar() {

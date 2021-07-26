@@ -76,7 +76,7 @@
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.example.marvel_app.favourites.FavouritesFragment"
-        android:label="FavouritesFragment"
+        android:label="@string/favourites"
         tools:layout="@layout/fragment_favourites">
     <action
             android:id="@+id/action_favouritesFragment_to_detailFragment"
