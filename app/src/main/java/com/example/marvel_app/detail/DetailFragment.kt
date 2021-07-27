@@ -33,7 +33,6 @@ class DetailFragment : Fragment() {
 
         setupComicInFavouritesObserver()
         setupFindOutMoreButtonListener(binding)
-        setupFavouriteIcon()
 
         return binding.root
     }
@@ -41,23 +40,10 @@ class DetailFragment : Fragment() {
     private fun setupComicInFavouritesObserver() {
         viewModel.checkIfComicInFavourites()
         viewModel.inFavourites.observe(viewLifecycleOwner, {
-            if (it) {
-                binding.favouritesStarIcon.setImageResource(R.drawable.ic_baseline_star_36)
-            } else {
-                binding.favouritesStarIcon.setImageResource(R.drawable.ic_baseline_star_border_36)
-            }
+            binding.favouritesStarIcon.setImageResource(if (it) R.drawable.ic_baseline_star_36 else R.drawable.ic_baseline_star_border_36)
         })
     }
 
-    private fun setupFavouriteIcon() {
-        binding.favouritesStarIcon.setOnClickListener {
-            if (viewModel.inFavourites.value == true) {
-                viewModel.deleteComicFromFavourites()
-            } else {
-                viewModel.insertComicToFavourites()
-            }
-        }
-    }
 
     private fun setupFindOutMoreButtonListener(binding: FragmentDetailBinding) {
         binding.findOutMoreButton.setOnClickListener {

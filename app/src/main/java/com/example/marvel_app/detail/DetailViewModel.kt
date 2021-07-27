@@ -57,4 +57,14 @@ class DetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun handleStarIconClick(){
+        if (_inFavourites.value == true) {
+            deleteComicFromFavourites()
+        } else {
+            insertComicToFavourites()
+        }
+    }
+
+
 }
