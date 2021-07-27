@@ -160,14 +160,14 @@ class HomeViewModelTest {
 
     @Test
     fun testDisplayComicDetail() {
-        val comic = Comic("Comic", "url", "ext", "desc", null, null)
+        val comic = Comic(1, "Comic", "url", "ext", "desc", null, null)
         homeViewModel.displayComicDetail(comic)
         assert(homeViewModel.navigateToSelectedComic.value == comic)
     }
 
     @Test
     fun testDisplayComicDetailComplete() {
-        val comic = Comic("Comic", "url", "ext", "desc", null, null)
+        val comic = Comic(1, "Comic", "url", "ext", "desc", null, null)
         homeViewModel.displayComicDetail(comic)
         homeViewModel.displayComicDetailComplete()
         assert(homeViewModel.navigateToSelectedComic.value == null)
