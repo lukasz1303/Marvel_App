@@ -82,11 +82,11 @@ class HomeViewModel @Inject constructor(
         _state.value = state
     }
 
-    fun setSearchingTitle(title: String?){
+    fun setSearchingTitle(title: String?) {
         _searchingTitle.value = title
     }
 
-    fun clearComicsList(){
+    fun clearComicsList() {
         comics = null
     }
 }

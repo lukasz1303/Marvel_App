@@ -43,6 +43,7 @@ fun List<NetworkComic>.asDomainModel(): List<Comic> {
             description = Html.fromHtml(itComic.description, Html.FROM_HTML_MODE_LEGACY).toString()
         }
         Comic(
+            id = itComic.id,
             title = itComic.title,
             imageUrl = itComic.thumbnail?.path,
             imageExtension = itComic.thumbnail?.extension,
