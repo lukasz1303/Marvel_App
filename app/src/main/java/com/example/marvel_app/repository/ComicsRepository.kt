@@ -16,10 +16,6 @@ class ComicsRepository @Inject constructor(
     private val database: ComicsDatabase
 ) {
 
-    private val job = Job()
-    private val coroutineScope = CoroutineScope(job + Dispatchers.IO)
-
-
     fun refreshComicsStream(title: String?): Flow<PagingData<Comic>> {
         return Pager(
             config = PagingConfig(
@@ -31,35 +27,30 @@ class ComicsRepository @Inject constructor(
     }
 
     suspend fun getComicsFromDatabase(): List<Comic> {
-        var result: List<Comic> = listOf()
-        coroutineScope.launch {
-            result = database.comicDao.getAll().asDomainModel()
-        }.join()
-        return result
+        return database.comicDao.getAll().asDomainModel()
     }
 
     suspend fun insertComicToDatabase(comic: Comic) {
-        withContext(Dispatchers.IO) {
-            database.comicDao.insertComic(
-                DatabaseComic(
-                    comic.id,
-                    comic.title,
-                    comic.imageUrl,
-                    comic.imageExtension,
-                    comic.description,
-                    comic.detailUrl
-                )
+        database.comicDao.insertComic(
+            DatabaseComic(
+                comic.id,
+                comic.title,
+                comic.imageUrl,
+                comic.imageExtension,
+                comic.description,
+                comic.detailUrl
             )
-            val databaseAuthors = comic.authors?.map {
-                Author(
-                    name = it,
-                    comicId = comic.id
-                )
-            }
-            if (databaseAuthors != null) {
-                database.comicDao.insertAuthors(databaseAuthors)
-            }
+        )
+        val databaseAuthors = comic.authors?.map {
+            Author(
+                name = it,
+                comicId = comic.id
+            )
         }
+        if (databaseAuthors != null) {
+            database.comicDao.insertAuthors(databaseAuthors)
+        }
+
     }
 
     suspend fun deleteComicFromDatabase(comic: Comic) {
@@ -88,9 +79,7 @@ class ComicsRepository @Inject constructor(
 
     suspend fun checkIfComicInDatabase(id: Int): Boolean {
         var result: DatabaseComicWithAuthors? = null
-        coroutineScope.launch {
-            result = database.comicDao.getComic(id)
-        }.join()
+        result = database.comicDao.getComic(id)
         result?.let {
             return true
         }

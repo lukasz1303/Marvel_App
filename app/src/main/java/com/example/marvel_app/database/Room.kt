@@ -14,23 +14,23 @@ interface ComicDao {
 
     @Transaction
     @Query("SELECT * FROM comics")
-    fun getAll(): List<DatabaseComicWithAuthors>
+    suspend fun getAll(): List<DatabaseComicWithAuthors>
 
     @Transaction
     @Query("SELECT * FROM comics where id = :id")
-    fun getComic(id: Int): DatabaseComicWithAuthors?
+    suspend fun getComic(id: Int): DatabaseComicWithAuthors?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertComic(comic: DatabaseComic)
+    suspend fun insertComic(comic: DatabaseComic)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAuthors(authors: List<Author>)
+    suspend fun insertAuthors(authors: List<Author>)
 
     @Delete
-    fun deleteComic(comic: DatabaseComic)
+    suspend fun deleteComic(comic: DatabaseComic)
 
     @Delete
-    fun deleteAuthors(authors: List<Author>)
+    suspend fun deleteAuthors(authors: List<Author>)
 }
 
 @Database(entities = [DatabaseComic::class, Author::class], version = 1)

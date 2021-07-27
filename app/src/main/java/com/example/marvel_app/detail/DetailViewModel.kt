@@ -58,7 +58,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun handleStarIconClick(){
+    fun handleStarIconClick() {
         if (_inFavourites.value == true) {
             deleteComicFromFavourites()
         } else {
